@@ -8,6 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import sakao_common.Student;
+
+
+
+import sakao_common.Bollard;
+
+import sakao_common.Sensor;
+
+import sakao_common.VehicleSensor;
+
+import sakao_common.Zone;
+import sakao_connection_pool.DataSource;
+import sakao_common.SmartCity;
+
+import sakao_common.SmartCity;
+
+
 import sakao_connection_pool.DataSource;
 
 public class Crud_Controller {
@@ -152,4 +168,625 @@ public class Crud_Controller {
 		DataSource.returnConnection(con);
 
 	}
+	
+	public void updateTramFrequency(int c) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con
+					.prepareStatement("UPDATE smartcity SET tramfrequency=" + c + "  WHERE idcity = 1;");
+			pt.execute();
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+
+	}
+	
+	public void updateNumberinCirculation(int c) throws ClassNotFoundException {
+
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con
+					.prepareStatement("UPDATE smartcity SET numberofvehicules=" + c + "  WHERE idcity = 1;");
+			pt.execute();
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+
+	}
+	
+	
+	
+	public void UpdateSmartCityVehicles(String target, ArrayList<String> list, SmartCity smartCityObject)
+			throws ClassNotFoundException {
+
+		try {
+			Connection con = DataSource.getConnection();
+			String req = "UPDATE smartcity SET maxnumbervehicles=?, numberofvehicules=?, tramfrequency=?\r\n"
+					+ "	WHERE idcity = 1;";
+
+			PreparedStatement pstm = con.prepareStatement(req);
+			int i = 2;
+
+			while (i < list.size()) {
+				pstm.setInt(1, Integer.parseInt((list.get(i)))); // MaxnumberVeh
+				pstm.setInt(2, Integer.parseInt(list.get(i + 2))); // numberofvehicules
+				pstm.setInt(3, Integer.parseInt(list.get(i + 4)));// tramfrequecy
+				pstm.executeUpdate();
+
+				smartCityObject.setMaxNumberVehicles(Integer.parseInt((list.get(i))));
+				smartCityObject.setNumberVehicles(Integer.parseInt(list.get(i + 2)));
+				smartCityObject.setTramFrequency(Integer.parseInt(list.get(i + 4)));
+
+				i += 8;
+
+			}
+			req = req.substring(0, req.length() - 1);
+
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void updateBollard(int id, boolean install) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+
+			PreparedStatement pstm = con
+					.prepareStatement(" UPDATE retractablebollard SET isinstalled = ?  WHERE idbollard = ?");
+			pstm.setBoolean(1, install);
+			pstm.setInt(2, id);
+			pstm.executeUpdate();
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+	}
+	
+	
+	public void deleteBollardById(int id) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("delete from retractablebollard where idbollard = " + id);
+			pt.execute();
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+	}
+	
+	
+	public void UpdateBollardTrue(ArrayList<Bollard> listBollard) throws ClassNotFoundException {
+
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("UPDATE retractablebollard SET bollardstate= true ;");
+			pt.executeUpdate();
+
+			for (Bollard bollard : listBollard) {
+
+				bollard.setBollardState(true);
+
+			}
+
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+	}
+
+	public void UpdateBollardFalse(ArrayList<Bollard> listBollard) throws ClassNotFoundException {
+
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("UPDATE retractablebollard SET bollardstate= false ;");
+			pt.executeUpdate();
+
+			for (Bollard bollard : listBollard) {
+
+				bollard.setBollardState(false);
+
+			}
+
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+	}
+	
+	
+	public void UpdateBollardIsInstalled(String target, ArrayList<String> list, ArrayList<Bollard> listBollardObj)
+			throws ClassNotFoundException {
+
+		try {
+			Connection con = DataSource.getConnection();
+			String req = "UPDATE retractablebollard SET  IsInstalled=? WHERE idbollard = ? and idzone= ?;";
+			PreparedStatement pstm = con.prepareStatement(req);
+			int i = 2;
+
+			System.out.println("taille " + list.size());
+			System.out.println("case " + list.get(2));
+			while (i < list.size()) {
+				pstm.setInt(2, Integer.parseInt((list.get(i)))); // Idbollard
+				pstm.setBoolean(1, Boolean.valueOf(list.get(i + 2)).booleanValue()); // IsInstalled
+				pstm.setInt(3, Integer.parseInt(list.get(i + 4)));// Idzone
+				pstm.executeUpdate();
+
+				for (Bollard bollard : listBollardObj) {
+					if ((bollard.getIdBollard() == Integer.parseInt((list.get(i))))) {
+
+						bollard.setInstalled(Boolean.valueOf(list.get(i + 2)).booleanValue());
+
+					}
+
+				}
+
+				i += 8;
+
+			}
+			req = req.substring(0, req.length() - 1);
+			// System.out.println(req);
+			// PreparedStatement pstm = con.prepareStatement(req);
+			// pstm.executeUpdate();
+			System.out.println("");
+			// System.out.println(req);
+			System.out.println("");
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+	
+	//A REECRIRE
+	/*
+	public ArrayList<VehicleSensor> GenerateAllVehicleSensors() throws ClassNotFoundException {
+		ArrayList<VehicleSensor> retour = new ArrayList<VehicleSensor>();
+		ArrayList<Sensor> sensor = new ArrayList<Sensor>();
+
+		try {
+			Connection con1 = DataSource.getConnection();
+			PreparedStatement pt1 = con1.prepareStatement("select * from sensor");
+			ResultSet rs1 = pt1.executeQuery();
+
+			while (rs1.next()) {
+
+				/*
+				 * sensor.add(new Sensor(rs1.getInt(1), rs1.getString(2), rs1.getString(3),
+				 * rs1.getInt(4), rs1.getString(5), rs1.getString(6), rs1.getBoolean(7)));
+				 */
+/*
+				sensor.add(new Sensor(rs1.getInt("idsensor"), rs1.getString("sensorstate"), rs1.getString("sensortype"),
+						rs1.getInt("idzone"), rs1.getString("ipaddress"), rs1.getString("macaddress"),
+						rs1.getBoolean("isinstalled")));
+
+				DataSource.returnConnection(con1);
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+
+		try {
+			Connection con2 = DataSource.getConnection();
+			PreparedStatement pt2 = con2.prepareStatement("select * from vehiclesensor");
+			ResultSet rs = pt2.executeQuery();
+			while (rs.next()) {
+
+				for (Sensor s : sensor) {
+					if (s.getIdSensor() == rs.getInt(4)) {
+
+						retour.add(new VehicleSensor(rs.getInt(1), s.getSensorState(), s.getSensorType(),
+								rs.getString(2), rs.getInt(3), s.getIdZone(), s.getIpAddress(), s.getMacAddress(),
+								s.getIsInstalled()));
+						DataSource.returnConnection(con2);
+					}
+
+				}
+
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+	}*/
+
+	
+	
+	public ArrayList<Bollard> GenerateAllBollards() throws ClassNotFoundException {
+		ArrayList<Bollard> retour = new ArrayList<Bollard>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("select * from retractablebollard");
+			ResultSet rs = pt.executeQuery();
+			while (rs.next()) {
+				/*
+				 * retour.add(new Bollard(rs.getInt(1), rs.getBoolean(2), rs.getInt(3),
+				 * rs.getBoolean(4), rs.getString(5), rs.getString(6)));
+				 */
+
+				retour.add(new Bollard(rs.getInt("idbollard"), rs.getBoolean("bollardstate"), rs.getInt("idzone"),
+						rs.getBoolean("isinstalled"), rs.getString("ipaddress"), rs.getString("macaddress")));
+
+				DataSource.returnConnection(con);
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+	}
+
+	public SmartCity GenerateCity() throws ClassNotFoundException {
+		SmartCity smartcity = null;
+		// ArrayList<smartcity> retour = new ArrayList<smartcity>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("select * from smartcity");
+			ResultSet rs = pt.executeQuery();
+			while (rs.next()) {
+				/*
+				 * smartcity = new smartcity2(rs.getInt(1), rs.getDouble(3), rs.getDouble(4),
+				 * rs.getInt(5), rs.getInt(6), rs.getInt(8), rs.getInt(7), rs.getInt(9),
+				 * rs.getString(2));
+				 */
+				smartcity = new SmartCity(rs.getInt("idcity"), rs.getDouble("heightkm"), rs.getDouble("widthkm"),
+						rs.getInt("budget"), rs.getInt("astationcost"), rs.getInt("numberofvehicules"),
+						rs.getInt("maxnumbervehicles"), rs.getInt("tramfrequency"), rs.getString("name"));
+				DataSource.returnConnection(con);
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return smartcity;
+	}
+/*
+	public void UpdateSensorVehicles(String target, ArrayList<String> list,
+			ArrayList<VehicleSensor> listVehicleSensorObj) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+			String req = "UPDATE vehiclesensor SET  numberofvehicle=? WHERE idvehiclesensor =? and sensortype= ?;";
+
+			PreparedStatement pstm = con.prepareStatement(req);
+			int i = 2;
+
+			// System.out.println("taille " + list.size());
+			// System.out.println("case " + list.get(2));
+			while (i < list.size()) {
+				pstm.setInt(2, Integer.parseInt((list.get(i)))); // IDVehicule
+				pstm.setString(3, list.get(i + 2)); // Sensortypeio
+				pstm.setInt(1, Integer.parseInt(list.get(i + 4)));// NUMBERVEHICULE
+				pstm.executeUpdate();
+
+				// Don't work if generateobject is commented in clientThread
+				for (VehicleSensor sensor : listVehicleSensorObj) {
+					if ((sensor.getIdSensor() == Integer.parseInt((list.get(i))))) {
+
+						sensor.setNumberOfVehicle(Integer.parseInt(list.get(i + 4)));
+
+					}
+
+				}
+
+				i += 8;
+
+			}
+			req = req.substring(0, req.length() - 1);
+			// System.out.println(req);
+			// PreparedStatement pstm = con.prepareStatement(req);
+			// pstm.executeUpdate();
+			// System.out.println("");
+			// System.out.println(req);
+			// System.out.println("");
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	*/
+	
+	/*
+	public ArrayList<String> showSensorById(int id) throws ClassNotFoundException {
+		ArrayList<String> retour = new ArrayList<String>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("select * from sensor where idsensor =" + id);
+			ResultSet rs = pt.executeQuery();
+			while (rs.next()) {
+				retour.add(new Sensor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5),
+						rs.getString(6), rs.getBoolean(7)).toString());
+
+			}
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+
+	}
+	*/
+	public ArrayList<String> showZoneById(int id) throws ClassNotFoundException {
+		ArrayList<String> retour = new ArrayList<String>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("select * from zone where idzone =" + id);
+			ResultSet rs = pt.executeQuery();
+			while (rs.next()) {
+				retour.add(new Zone(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)).toString());
+
+			}
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+
+	}
+	
+	
+	/*
+	public void deleteSensorById(int id) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("delete from sensor where idsensor = " + id);
+			pt.execute();
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+	}
+*/
+	
+	/*
+	public void updateSensor(int id, boolean install) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+
+			PreparedStatement pstm = con.prepareStatement(" UPDATE sensor SET isinstalled = ?  WHERE idsensor = ?");
+			pstm.setBoolean(1, install);
+			pstm.setInt(2, id);
+			pstm.executeUpdate();
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+	}
+	*/
+	
+	
+	/*
+	
+	public void addOnSensor(String target, ArrayList<String> list) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+			String req = "insert into " + target
+					+ " (sensorstate, sensortype, idzone, ipaddress, macaddress, isinstalled) VALUES ";
+
+			int i = 2;
+			while (i < list.size()) {
+				req += "(" + "\'" + list.get(i) + "\'" + "," + "\'" + list.get(i + 2) + "\'" + "," + list.get(i + 4)
+						+ "," + "\'" + list.get(i + 6) + "\'" + "," + "\'" + list.get(i + 8) + "\'" + ","
+						+ list.get(i + 10) + "),";
+				i += 14;
+			}
+			req = req.substring(0, req.length() - 1);
+			System.out.println(req);
+			PreparedStatement pstm = con.prepareStatement(req);
+			pstm.executeUpdate();
+			System.out.println(req);
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	*/
+	
+	
+	
+	public void addOnBollard(String target, ArrayList<String> list) throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+			String req = "insert into " + target + " (BollardState, IDZone, IsInstalled,Ipaddress,Macaddress) VALUES ";
+			int i = 2;
+
+			System.out.println("taille " + list.size());
+			System.out.println("case " + list.get(2));
+			while (i < list.size()) {
+				req += "(" + list.get(i) + "," + list.get(i + 2) + "," + list.get(i + 4) + "," + list.get(i + 6) + ","
+						+ list.get(i + 8) + "),";
+				i += 12;
+
+			}
+
+			// System.out.println("");
+
+			System.out.println("");
+			req = req.substring(0, req.length() - 1);
+			// System.out.println(req);
+			PreparedStatement pstm = con.prepareStatement(req);
+			pstm.executeUpdate();
+			System.out.println("");
+			// System.out.println(req);
+			System.out.println("");
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	/*
+	public ArrayList<String> showAllSensorVehicles() throws ClassNotFoundException {
+		ArrayList<String> retour = new ArrayList<String>();
+		ArrayList<VehicleSensor> retour1 = new ArrayList<VehicleSensor>();
+		ArrayList<Sensor> sensor = new ArrayList<Sensor>();
+
+		try {
+			Connection con1 = DataSource.getConnection();
+			PreparedStatement pt1 = con1.prepareStatement("select * from sensor");
+			ResultSet rs1 = pt1.executeQuery();
+
+			while (rs1.next()) {
+
+				sensor.add(new Sensor(rs1.getInt(1), rs1.getString(2), rs1.getString(3), rs1.getInt(4),
+						rs1.getString(5), rs1.getString(6), rs1.getBoolean(7)));
+
+				
+			}
+			DataSource.returnConnection(con1);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+
+		try {
+			Connection con2 = DataSource.getConnection();
+			PreparedStatement pt2 = con2.prepareStatement("select * from vehiclesensor");
+			ResultSet rs = pt2.executeQuery();
+			while (rs.next()) {
+
+				for (Sensor s : sensor) {
+					// System.out.println("SENSOR =" +s.getIdSensor());
+					// System.out.println("Vehicule sensor id =" + rs.getInt(4) );
+					if (s.getIdSensor() == rs.getInt(4)) {
+
+						System.out.println("rs.getint(4) =" + rs.getInt(4));
+						// System.out.println("s.getSensorState() ="+s.getSensorState());
+						// System.out.println("s.getSensorType() ="+s.getSensorType());
+						System.out.println("rs.getString(2) =" + rs.getString(2));
+						System.out.println(" rs.getInt(3) =" + rs.getInt(3));
+						System.out.println(" rs.getInt(3) =" + rs.getInt(3));
+						// System.out.println("s.getIdZone() ="+s.getIdZone());
+						// System.out.println("s.getIpAddress() ="+s.getIpAddress());
+						// System.out.println("s.getMacAddress() ="+s.getMacAddress());
+						// System.out.println("s.getIsInstalled()="+s.getIsInstalled());
+
+						// VehicleSensor c = new VehicleSensor(1,"12","23","12",12,12,"12","12",true);
+
+						VehicleSensor c = new VehicleSensor(rs.getInt(4), s.getSensorState(), s.getSensorType(),
+								rs.getString(2), rs.getInt(3), s.getIdZone(), s.getIpAddress(), s.getMacAddress(),
+								s.getIsInstalled());
+						String c1 = c.toString();
+						// System.out.println("c.getIdSensor(); =" + c.getIdSensor());
+						// System.out.println("le c = "+c);
+
+						retour1.add(c);
+
+						retour.add(c1);
+
+						// System.out.println("retour1 =" + retour1);
+
+						
+					}
+				}
+
+			}
+			DataSource.returnConnection(con2);
+			System.out.println("retour laaa   =" + retour);
+
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+	}
+	*/
+	
+	public ArrayList<String> showAllBollards() throws ClassNotFoundException {
+		ArrayList<String> retour = new ArrayList<String>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("select * from retractablebollard");
+			ResultSet rs = pt.executeQuery();
+			while (rs.next()) {
+				retour.add(new Bollard(rs.getInt(1), rs.getBoolean(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5),
+						rs.getString(6)).toString());
+
+			}
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+	}
+	
+	
+	public ArrayList<String> showAllZone() throws ClassNotFoundException {
+		ArrayList<String> retour = new ArrayList<String>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("select * from zone");
+			ResultSet rs = pt.executeQuery();
+			while (rs.next()) {
+				retour.add(new Zone(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)).toString());
+
+			}
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+	}
+
+	/*
+	public ArrayList<String> showAllSensors() throws ClassNotFoundException {
+		ArrayList<String> retour = new ArrayList<String>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("select * from sensor");
+			ResultSet rs = pt.executeQuery();
+			while (rs.next()) {
+				retour.add(new Sensor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5),
+						rs.getString(6), rs.getBoolean(7)).toString());
+
+			}
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+		return retour;
+	}
+	*/
+	
+	public ArrayList<String> showVehiculNumb() {
+		ArrayList<String> don = new ArrayList<String>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement ps = con.prepareStatement("select maxnumbervehicles from smartcity;");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("/////////////////////////////////////////////////////");
+		//		SmartCity s = new SmartCity(rs.getInt("maxnumbervehicles"));
+				
+				//don.add(new ObjectMapper().writeValueAsString(s));
+			}
+
+			DataSource.returnConnection(con);
+			System.out.println("fini");
+		} catch (Exception e) {
+			System.out.println("erreur " + e.getMessage());
+		}
+
+		return don;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
 }

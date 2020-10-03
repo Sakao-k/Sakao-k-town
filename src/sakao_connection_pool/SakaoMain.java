@@ -1,7 +1,7 @@
 package sakao_connection_pool;
 
 import sakao_server.Crud_Service;;
-
+// Inutile (à supprimer)
 public class SakaoMain {
 
 	public static void main(String[] args) throws ClassNotFoundException {

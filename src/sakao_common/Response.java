@@ -3,20 +3,24 @@ package sakao_common;
 import java.util.ArrayList;
 
 public class Response {
-	private ArrayList<Student> students;
+	ArrayList<String> list;
 
 	public Response() {
 	}
+	
+	public ArrayList<String> getList() {
+		return list;
+	}
 
+	public void setList(ArrayList<String> list) {
+		this.list = list;
+	}
+
+	@Override
 	public String toString() {
-		return "Students : [ " + this.getStudents() + "; ]";
+		return "Response " + list + "";
 	}
-
-	public ArrayList<Student> getStudents() {
-		return students;
-	}
-
-	public void setStudents(ArrayList<Student> students) {
-		this.students = students;
-	}
+	
+	
+	
 }
