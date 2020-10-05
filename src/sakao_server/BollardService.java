@@ -46,8 +46,7 @@ public class BollardService {
 		}
 		return b;
 	}
-	
-	
+
 	public boolean updateBollard(int id, boolean install) {
 		boolean b = false;
 		try {
@@ -88,7 +87,7 @@ public class BollardService {
 		return b;
 
 	}
-	
+
 	public boolean deleteBollardById(int ID) {
 		boolean b = false;
 		try {

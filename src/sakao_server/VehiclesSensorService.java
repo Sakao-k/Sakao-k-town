@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import sakao_common.VehicleSensor;
 
-
 public class VehiclesSensorService {
 
 	private Crud_Controller controller;
@@ -16,22 +15,18 @@ public class VehiclesSensorService {
 	public ArrayList<VehicleSensor> GenerateAllVehicleSensors() throws ClassNotFoundException {
 		return controller.GenerateAllVehicleSensors();
 	}
-	
-	
-	
+
 	public ArrayList<String> showAllSensorVehicles() throws ClassNotFoundException {
 		return controller.showAllSensorVehicles();
 	}
-	
-	
-	
 
-	public boolean UpdateSensorVehicles(String target,ArrayList<String> list, ArrayList<VehicleSensor> listVehicleSensorObj ) {
+	public boolean UpdateSensorVehicles(String target, ArrayList<String> list,
+			ArrayList<VehicleSensor> listVehicleSensorObj) {
 		boolean b = false;
 		try {
 			/// Student p = new Student(name, age);
 			// Don't work if generateobject is commented
-			controller.UpdateSensorVehicles(target,list,listVehicleSensorObj);
+			controller.UpdateSensorVehicles(target, list, listVehicleSensorObj);
 			b = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,13 +45,13 @@ public class VehiclesSensorService {
 
 		}
 		return b;
-		
+
 	}
 
 	public boolean deleteVehiclesSensorById(int ID) {
 		boolean b = false;
 		try {
-			controller.deleteSensorById(ID);
+			controller.deleteVehiclesSensorById(ID);
 			b = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,13 +62,12 @@ public class VehiclesSensorService {
 	public boolean updateVehiclesSensorIsInstalled(int id, boolean install) {
 		boolean b = false;
 		try {
-			controller.updateSensor(id, install);
+			controller.updateVehiclesSensorIsInstalled(id, install);
 			b = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return b;
 	}
-	
-	
+
 }
