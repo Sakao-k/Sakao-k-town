@@ -1,0 +1,32 @@
+{
+	"operation_type": "Update",
+	"target": "bollard",
+	"list": [
+		{
+			"idbollard" : 52,
+			"bollardstate": true,
+			"idzone": 1,
+			"IsInstalled" : false,
+			"Ipaddress" : "192.168.1.5",
+			"Macaddress" : "AW.AX.AC.AV.AB"
+		},
+		{
+			"idbollard" : 53,
+			"bollardstate": true,
+			"idzone": 1,
+			"IsInstalled" : false,
+			"Ipaddress" : "192.168.1.6",
+			"Macaddress" : "AW.AX.AC.AV.AC"
+		},
+		{
+			"idbollard" : 54,
+			"bollardstate": true,
+			"idzone": 1,
+			"IsInstalled" : false,
+			"Ipaddress" : "192.168.1.7",
+			"Macaddress" : "AW.AX.AC.AV.AD"
+		}
+	]
+}
+
+

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import sakao_client.ClientSakao;
+
 import sakao_server.ClientThread;
 
 public class JDBCConnectionPool {

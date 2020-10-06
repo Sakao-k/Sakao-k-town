@@ -33,7 +33,17 @@ public class BollardService {
 		}
 		return b;
 	}
-
+	public boolean UpdateBollardIsInstalled(int id, boolean install) {
+		boolean b = false;
+		try {
+			controller.UpdateBollardIsInstalled(id, install);
+			b = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+	
 	public boolean UpdateBollardIsInstalled(String target, ArrayList<String> list, ArrayList<Bollard> listBollardObj) {
 		boolean b = false;
 		try {
@@ -47,16 +57,9 @@ public class BollardService {
 		return b;
 	}
 
-	public boolean updateBollard(int id, boolean install) {
-		boolean b = false;
-		try {
-			controller.updateBollard(id, install);
-			b = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return b;
-	}
+	
+	
+	
 
 	public boolean Updatetrue(ArrayList<Bollard> listBollard) {
 		boolean b = false;
@@ -99,4 +102,27 @@ public class BollardService {
 		return b;
 	}
 
+	public boolean updateBollard(String target, ArrayList<String> list, ArrayList<Bollard> bollardObject) {
+		boolean b = false;
+		try {
+			/// Student p = new Student(name, age);
+			controller.updateBollard(target, list, bollardObject);
+			b = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return b;
+	}
+
+	public boolean deleteBollardNotInstalled() {
+		boolean b = false;
+		try {
+			controller.deleteBollardNotInstalled();
+			b = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
 }

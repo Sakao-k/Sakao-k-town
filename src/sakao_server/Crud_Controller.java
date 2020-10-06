@@ -207,7 +207,7 @@ public class Crud_Controller {
 		}
 	}
 
-	public void updateBollard(int id, boolean install) throws ClassNotFoundException {
+	public void UpdateBollardIsInstalled(int id, boolean install) throws ClassNotFoundException {
 		try {
 			Connection con = DataSource.getConnection();
 
@@ -234,6 +234,16 @@ public class Crud_Controller {
 		}
 	}
 
+	public void deleteBollardNotInstalled() throws ClassNotFoundException {
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement pt = con.prepareStatement("delete from retractablebollard where IsInstalled= false  ");
+			pt.execute();
+			DataSource.returnConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("erreur " + ex.getMessage());
+		}
+	}
 	public void UpdateBollardTrue(ArrayList<Bollard> listBollard) throws ClassNotFoundException {
 
 		try {
@@ -301,6 +311,57 @@ public class Crud_Controller {
 				}
 
 				i += 8;
+
+			}
+			req = req.substring(0, req.length() - 1);
+			// System.out.println(req);
+			// PreparedStatement pstm = con.prepareStatement(req);
+			// pstm.executeUpdate();
+			System.out.println("");
+			// System.out.println(req);
+			System.out.println("");
+			DataSource.returnConnection(con);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+	public void updateBollard(String target, ArrayList<String> list, ArrayList<Bollard> listBollardObj)
+			throws ClassNotFoundException {
+
+		try {
+			Connection con = DataSource.getConnection();
+			String req = "UPDATE retractablebollard\r\n"
+					+ "	SET  bollardstate=?, idzone=?, isinstalled=?, ipaddress=?, macaddress=?\r\n"
+					+ "	WHERE idbollard=?;";
+			PreparedStatement pstm = con.prepareStatement(req);
+			int i = 2;
+
+			while (i < list.size()) {
+				pstm.setInt(6, Integer.parseInt((list.get(i)))); // Idbollard
+				pstm.setBoolean(1, Boolean.valueOf(list.get(i + 2)).booleanValue()); // bollardstate
+				pstm.setInt(2, Integer.parseInt(list.get(i + 4)));// Idzone
+				pstm.setBoolean(3, Boolean.valueOf(list.get(i + 6)).booleanValue()); // IsInstalled
+				pstm.setString(4, list.get(i + 8)); // ippadress
+				pstm.setString(5, list.get(i + 10));// macadress
+
+				pstm.executeUpdate();
+
+				for (Bollard bollard : listBollardObj) {
+					if ((bollard.getIdBollard() == Integer.parseInt((list.get(i))))) {
+
+						bollard.setBollardState(Boolean.valueOf(list.get(i + 2)).booleanValue());
+						bollard.setIdZone(Integer.parseInt(list.get(i + 4)));
+						bollard.setInstalled(Boolean.valueOf(list.get(i + 6)).booleanValue());
+						bollard.setIpaddress(list.get(i + 8));
+						bollard.setMacaddress(list.get(i + 10));
+					}
+
+				}
+
+				i += 14;
 
 			}
 			req = req.substring(0, req.length() - 1);
@@ -567,8 +628,8 @@ public class Crud_Controller {
 			String req = "insert into " + target + " (BollardState, IDZone, IsInstalled,Ipaddress,Macaddress) VALUES ";
 			int i = 2;
 
-			System.out.println("taille " + list.size());
-			System.out.println("case " + list.get(2));
+			// System.out.println("taille " + list.size());
+			// System.out.println("case " + list.get(2));
 			while (i < list.size()) {
 				req += "(" + list.get(i) + "," + list.get(i + 2) + "," + list.get(i + 4) + "," + list.get(i + 6) + ","
 						+ list.get(i + 8) + "),";
@@ -578,14 +639,14 @@ public class Crud_Controller {
 
 			// System.out.println("");
 
-			System.out.println("");
+			// System.out.println("");
 			req = req.substring(0, req.length() - 1);
 			// System.out.println(req);
 			PreparedStatement pstm = con.prepareStatement(req);
 			pstm.executeUpdate();
-			System.out.println("");
+			// System.out.println("");
 			// System.out.println(req);
-			System.out.println("");
+			// System.out.println("");
 			DataSource.returnConnection(con);
 
 		} catch (SQLException ex) {

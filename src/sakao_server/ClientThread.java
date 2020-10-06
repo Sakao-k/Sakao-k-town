@@ -178,9 +178,9 @@ public class ClientThread extends Thread {
 		case "INSERT":
 
 			bollardService.addBollard("retractablebollard", list);//
-			bollardObject = bollardService.GenerateAllBollards();
+			//bollardObject = bollardService.GenerateAllBollards();
 
-			System.out.println(bollardObject);
+		//	System.out.println(bollardObject);
 
 			String outjsonStringInsert = mapper.writeValueAsString(response);
 			out.write(outjsonStringInsert + "\n");
@@ -192,7 +192,7 @@ public class ClientThread extends Thread {
 
 		case "Update":
 			// Afficher le update
-			bollardService.UpdateBollardIsInstalled(target, list, bollardObject);
+			bollardService.updateBollard(target, list, bollardObject);
 			bollardObject = bollardService.GenerateAllBollards();
 			System.out.println("Update done on bollard");
 
@@ -205,7 +205,7 @@ public class ClientThread extends Thread {
 			break;
 
 		case "UPDATEinstall":
-			System.out.println(this.bollardService.updateBollard(Integer.parseInt(this.request.getList().get(0)),
+			System.out.println(this.bollardService.UpdateBollardIsInstalled(Integer.parseInt(this.request.getList().get(0)),
 					Boolean.valueOf(this.request.getList().get(1))));
 			String outjsonStringUPDATEinstall = mapper.writeValueAsString(response);
 			out.write(outjsonStringUPDATEinstall + "\n");
@@ -218,6 +218,15 @@ public class ClientThread extends Thread {
 			System.out.println(bollardService.deleteBollardById(Integer.parseInt(this.request.getList().get(0))));
 			String outjsonStringDeleteABollard = mapper.writeValueAsString(response);
 			out.write(outjsonStringDeleteABollard + "\n");
+			out.flush();
+			System.out.println("A row deleted for " + this.getName());
+			System.out.println("********************");
+			break;
+			
+		case "DELETE_NOT_INSTALLED":
+			System.out.println(bollardService.deleteBollardNotInstalled());
+			String outjsonStringDeleteUninstalledBollard = mapper.writeValueAsString(response);
+			out.write(outjsonStringDeleteUninstalledBollard + "\n");
 			out.flush();
 			System.out.println("A row deleted for " + this.getName());
 			System.out.println("********************");
@@ -364,27 +373,38 @@ public class ClientThread extends Thread {
 
 	}
 
-	public void StartCrud()
-			throws JsonParseException, JsonMappingException, IOException, ClassNotFoundException, NullPointerException {
+	public void StartCrud() throws JsonParseException, JsonMappingException, IOException, ClassNotFoundException,
+			NullPointerException, JSONException {
 		mapper = new ObjectMapper();
-		String jsonString = in.readLine();
-		request = mapper.readValue(jsonString, Request.class);
-		System.out.println("Request received from " + this.getName());
-		String operation_type = request.getOperation_type();
+		String outjsonString = in.readLine();
+		
+		System.out.println("Recieved from client : "+ this.getName());
+		System.out.println(outjsonString);
 
-		switch (operation_type) {
+		request = mapper.readValue(outjsonString, Request.class);
+		System.out.println("List :");
+		System.out.println(request.getList());
+	//	System.out.println(request.getList().size());
+		System.out.println("       ");
+///// String operation_type = request.getOperation_type();
+		String target = this.request.getTarget();
+		switch (target) {
 
-		////////////////////////// A COMPLETER
-		// SENSOR
+		case "zone":
+			try {
+				this.CrudZone(this.request.getOperation_type(), this.request.getTarget(), this.request.getList());
+			} catch (Exception e) {
+			}
 
-		case "smartCity":
+			break;
+
+		case "smartcity":
 			try {
 				this.CrudSmartcity(this.request.getOperation_type(), this.request.getTarget(), this.request.getList());
 			} catch (Exception e) {
 			}
 
 			break;
-
 		case "vehiclesSensor":
 			try {
 				this.CrudVehiclesSensor(this.request.getOperation_type(), this.request.getTarget(),
@@ -393,7 +413,6 @@ public class ClientThread extends Thread {
 				e.printStackTrace();
 			}
 			break;
-
 		case "bollard":
 			try {
 				this.CrudBollard(this.request.getOperation_type(), this.request.getTarget(), this.request.getList());
@@ -403,6 +422,7 @@ public class ClientThread extends Thread {
 			break;
 
 		}
+
 	}
 
 	public void run() {
@@ -411,7 +431,9 @@ public class ClientThread extends Thread {
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			System.out.println(this.getName() + " connected");
 			System.out.println("********************");
-
+			System.out.println("");
+			 this.GenerateObject(); // IHM DON'T WORK
+			// this.CheckVehiclesThreshold();
 			while (shouldRun) {
 				this.StartCrud();
 			}
@@ -427,6 +449,9 @@ public class ClientThread extends Thread {
 			System.out.println(this.getName() + " disconnected");
 			System.out.println("********************");
 
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
