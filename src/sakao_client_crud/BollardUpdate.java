@@ -71,7 +71,7 @@ public class BollardUpdate {
 		
 		Request reqUpdate = new ObjectMapper().readValue(table.readFileToUpdateBollard(), Request.class);	
 		
-		System.out.println("SERVER RESPONSE : " + client1.sendMessageToServer(request));
+		System.out.println("SERVER RESPONSE : " + client1.sendMessageToServer(reqUpdate));
 		System.out.println("_____");
 
 		System.out.println("Update done");

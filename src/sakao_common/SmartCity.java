@@ -15,6 +15,10 @@ public class SmartCity {
 	private int maxPolution;
 	private int polutionLevel; // In the town
 
+	private final static double PolutionLightCommercialVehicle = 0.2;
+	private final static double PolutionCompactCar = 0.4;
+	private final static double PolutionHeavyGoodsVehicle = 0.8;
+
 	private int tramFrequency;
 
 	public SmartCity() {
@@ -76,8 +80,6 @@ public class SmartCity {
 		this.widthkm = width;
 	}
 
-
-
 	public String getName() {
 		return name;
 	}
@@ -126,30 +128,6 @@ public class SmartCity {
 		this.polutionLevel = polutionLevel;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	///////////////////////////////////////////////////// A REVOIR (RAJOUTER CALCUL POLUTION)
-/*
-	public int CityThresholdPolution(ArrayList<Zone> listzone) {
-
-		int cityThresholdPolution = 0;
-
-		for (Zone zone : listzone) {
-
-			cityThresholdPolution += zone.getThresholdBeta();
-
-		}
-
-		return cityThresholdPolution;
-
-	}
-
 	public int VehicleInCirculation(ArrayList<VehicleSensor> Sensorlist) {
 
 		int inV = 0;
@@ -160,13 +138,17 @@ public class SmartCity {
 		while (it.hasNext()) {
 			VehicleSensor v = it.next();
 
-			if (v.getSensorTypeIO().equals("Input")) {
+			if (v.getSensorType().equals("Input")) {
 
-				inV += v.getNumberOfVehicle();
+				inV += v.getNbOfCompactCar();
+				inV += v.getNbOfHeavyGoodsVehicle();
+				inV += v.getNbOfLightCommercialVehicle();
 
-			} else if (v.getSensorTypeIO().equals("Output")) {
+			} else if (v.getSensorType().equals("Output")) {
 
-				outV += v.getNumberOfVehicle();
+				outV += v.getNbOfCompactCar();
+				outV += v.getNbOfHeavyGoodsVehicle();
+				outV += v.getNbOfLightCommercialVehicle();
 
 			}
 
@@ -175,6 +157,33 @@ public class SmartCity {
 		return NbVehicleInCirculation;
 	}
 
+	public double PoltutionPerVehicleInCirculation(ArrayList<VehicleSensor> Sensorlist) {
+
+		double PinV = 0;
+		double PoutV = 0;
+
+		Iterator<VehicleSensor> it = Sensorlist.iterator();
+
+		while (it.hasNext()) {
+			VehicleSensor v = it.next();
+
+			if (v.getSensorType().equals("Input")) {
+
+				PinV += (v.getNbOfCompactCar() * PolutionCompactCar);
+				PinV += (v.getNbOfHeavyGoodsVehicle() * PolutionHeavyGoodsVehicle);
+				PinV += (v.getNbOfLightCommercialVehicle() * PolutionLightCommercialVehicle);
+
+			} else if (v.getSensorType().equals("Output")) {
+
+				PoutV += (v.getNbOfCompactCar() * PolutionCompactCar);
+				PoutV += (v.getNbOfHeavyGoodsVehicle() * PolutionHeavyGoodsVehicle);
+				PoutV += (v.getNbOfLightCommercialVehicle() * PolutionLightCommercialVehicle);
+			}
+
+		}
+		double PoltutionPerVehicleInCirculation = (PinV + this.polutionLevel) - PoutV;
+		return PoltutionPerVehicleInCirculation;
+	}
 
 	public boolean CheckThresholdNbMaxVehicles(int NbVehicleInCirculation) {
 
@@ -186,16 +195,14 @@ public class SmartCity {
 
 	}
 
-	public boolean CheckThresholdBeta(int cityThresholdPolution, int CityPolution) {
+	public boolean CheckThresholdNbMaxPolution(double PoltutionPerVehicleInCirculation) {
 
-		if (CityPolution >= cityThresholdPolution) {
+		if (PoltutionPerVehicleInCirculation >= this.maxPolution) {
 			return true;
 		} else {
 			return false;
 		}
 
 	}
-	
-	
-	*/
+
 }
