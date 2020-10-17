@@ -43,10 +43,10 @@ public class smartCityServices {
 
 	// nessecaire pour calcul ?
 
-	public void updateCurrentPolution(int c) {
+	public void updateCurrentPolution(double poltutionInTown) {
 
 		try {
-			controller.updateCurrentPolution(c);
+			controller.updateCurrentPolution(poltutionInTown);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -115,14 +115,29 @@ public class BollardService {
 		return b;
 	}
 
-	public boolean deleteBollardNotInstalled() {
+	public boolean deleteBollardInstallState(ArrayList<String> list) {
 		boolean b = false;
 		try {
-			controller.deleteBollardNotInstalled();
+			controller.deleteBollardInstallState(list);
 			b = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return b;
 	}
+
+	public boolean UpdateBollardInstalledToTrueState(ArrayList<String> list) {
+		boolean b = false;
+		try {
+			/// Student p = new Student(name, age);
+			controller.UpdateBollardInstalledToTrueState(list);
+			b = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return b;
+	}
+
+
 }

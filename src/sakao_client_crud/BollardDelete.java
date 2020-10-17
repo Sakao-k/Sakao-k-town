@@ -21,7 +21,7 @@ public class BollardDelete {
 
 	private ObjectMapper mapper;
 	private final static String SELECT_ALL = "SELECT_ALL";
-	private final static String DELETE_NOT_INSTALLED = "DELETE_NOT_INSTALLED";
+	private final static String DELETE_INSTALL_STATE = "DELETE_INSTALL_STATE";
 
 	public void startConnection(String ip, int port) throws IOException, JSONException {
 		System.out.println("waiting for connection in to the server");
@@ -59,7 +59,7 @@ public class BollardDelete {
 		client1.startConnection("localhost", 3030);
 		TablesForCrud table = new TablesForCrud();
 
-		Request request = new Request(SELECT_ALL, "bollard");
+		/*Request request = new Request(SELECT_ALL, "bollard");
 		System.out.println("BEFORE DELETE");
 		System.out.println("");
 		System.out.println("SERVER RESPONSE : " + client1.sendMessageToServer(request));
@@ -67,17 +67,17 @@ public class BollardDelete {
 		System.out.println("");
 		System.out.println("DELETING");
 		System.out.println("");
-
-		Request reqDelete = new Request(DELETE_NOT_INSTALLED, "bollard");
+*/
+		Request reqDelete = new ObjectMapper().readValue(table.readFileToDeleteBollard(), Request.class);	
 
 		client1.sendMessageToServer(reqDelete);
 		
-		System.out.println("AFTER DELETE");
+		/*System.out.println("AFTER DELETE");
 		System.out.println("");
 		
 		System.out.println("SERVER RESPONSE : " + client1.sendMessageToServer(request));
 
-		System.out.println("_____");
+		System.out.println("_____");*/
 
 		System.out.println("Delete done");
 		System.out.println("********************");

@@ -61,13 +61,13 @@ public class BollardUpdate {
 		TablesForCrud table = new TablesForCrud();
 		
 		
-		System.out.println("BEFORE UPDATE");
+		/*System.out.println("BEFORE UPDATE");
 		System.out.println("");
 		Request request = new Request(SELECT_ALL, "bollard");
 		System.out.println("SERVER RESPONSE : " + client1.sendMessageToServer(request));
 		System.out.println("_____");
 		System.out.println("AFTER UPDATE");
-		System.out.println("");
+		System.out.println("");*/
 		
 		Request reqUpdate = new ObjectMapper().readValue(table.readFileToUpdateBollard(), Request.class);	
 		

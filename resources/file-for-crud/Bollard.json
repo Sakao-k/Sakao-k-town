@@ -3,21 +3,21 @@
 	"target": "bollard",
 	"list": [
 		{
-			"bollardstate": true,
+			"bollardstate": false,
 			"idzone": 1,
-			"IsInstalled" : false,
+			"IsInstalled" : true,
 			"Ipaddress" : "1000",
 			"Macaddress" : "100"
 		},
 		{
-			"bollardstate": true,
+			"bollardstate": false,
 			"idzone": 1,
-			"IsInstalled" : false,
+			"IsInstalled" : true,
 			"Ipaddress" : "1000",
 			"Macaddress" : "100"
 		},
 		{
-			"bollardstate": true,
+			"bollardstate": false,
 			"idzone": 1,
 			"IsInstalled" : true,
 			"Ipaddress" : "1000",

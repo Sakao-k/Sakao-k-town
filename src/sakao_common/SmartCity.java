@@ -186,6 +186,7 @@ public class SmartCity {
 	}
 
 	public boolean CheckThresholdNbMaxVehicles(int NbVehicleInCirculation) {
+		//Si le nb de vehicle circulent est superieur au seuil
 
 		if (NbVehicleInCirculation >= this.maxNumberVehicles) {
 			return true;
@@ -195,7 +196,8 @@ public class SmartCity {
 
 	}
 
-	public boolean CheckThresholdNbMaxPolution(double PoltutionPerVehicleInCirculation) {
+	public boolean CheckThresholdMaxPolution(double PoltutionPerVehicleInCirculation) {
+		//Si la polution dans la ville est superieur AU seuil
 
 		if (PoltutionPerVehicleInCirculation >= this.maxPolution) {
 			return true;

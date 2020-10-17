@@ -1,5 +1,5 @@
 {
-	"operation_type": "UPDATEInstalledToTrueState",
+	"operation_type": "DELETE_INSTALL_STATE",
 	"target": "bollard",
 	"list": [
 		{

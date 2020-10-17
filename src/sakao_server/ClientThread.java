@@ -87,6 +87,88 @@ public class ClientThread extends Thread {
 		}
 
 	}
+	private void CheckVehiclesThreshold() throws ClassNotFoundException {
+
+		bollardObject = bollardService.GenerateAllBollards();
+
+
+
+		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject);
+		double PoltutionInTown= smartCityObject.PoltutionPerVehicleInCirculation(vehicleSensorObject);
+		smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
+		smartCityServices.updateCurrentPolution(PoltutionInTown);
+		
+		smartCityObject = smartCityServices.GenerateCity();
+
+		System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
+		System.out.println("Current Polution in Town= " + PoltutionInTown);
+
+		int Max = smartCityObject.getMaxNumberVehicles();
+		int Maxminus20 = ((Max) - ((Max * 20) / 100)); // -20% of max
+		
+		int MaxPolution = smartCityObject.getMaxPolution();
+		int MaxPolutionminus20 = ((MaxPolution) - ((MaxPolution * 20) / 100)); // -20% of max
+
+		if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true) {
+		// Si le nb de vehicle circulent est superieur au seuil
+
+			// Alors on leve les borne
+			bollardService.Updatetrue(bollardObject);
+			bollardObject = bollardService.GenerateAllBollards();
+
+			// et On augmente la frequence des tram aux max cad 10
+			smartCityServices.updateTramFrequency(10);
+			smartCityObject = smartCityServices.GenerateCity();
+
+
+
+			System.out.println("Retractable bollards are raised");
+			System.out.println("Tramfrequency =  10/10");
+
+		} 
+		
+		else {
+		// 2. SINON	
+			
+
+			if (NbVehicleInCirculation < Maxminus20) {
+				//2.1 SI le nombre de ve
+
+				bollardService.Updatefalse(bollardObject);
+				bollardObject = bollardService.GenerateAllBollards();
+
+				smartCityServices.updateTramFrequency(6);
+				smartCityObject = smartCityServices.GenerateCity();
+
+				System.out.println("Retractable bollards are lowered");
+				System.out.println("Tramfrequency =  6/10");
+			} else {
+
+				if (bollardObject.get(1).getIsBollardState() == true) {
+
+					smartCityServices.updateTramFrequency(8);
+					smartCityObject = smartCityServices.GenerateCity();
+					// Faire liste des bollard
+
+					System.out.println("Number of vehicule is decreasing in town");
+					System.out.println("Retractable bollards are raised");
+					System.out.println("Tramfrequency =  8/10");
+				} else {
+
+					smartCityServices.updateTramFrequency(8);
+					smartCityObject = smartCityServices.GenerateCity();
+					// Faire liste des bollard
+
+					System.out.println("Number of vehicule is increasing in town");
+					System.out.println("Retractable bollards are lowered");
+					System.out.println("Tramfrequency =  8/10");
+
+				}
+
+			}
+		}
+
+	}
 
 	/*
 	 * private void CheckVehiclesThreshold() throws ClassNotFoundException {
@@ -165,6 +247,8 @@ public class ClientThread extends Thread {
 			throws ClassNotFoundException, JsonGenerationException, JsonMappingException, IOException {
 
 		switch (operation_type) {
+		
+		//Crud
 		case "SELECT_ALL":
 
 			response.setList(bollardService.showAllBollards());
@@ -174,7 +258,9 @@ public class ClientThread extends Thread {
 			System.out.println("Display done to " + this.getName());
 			System.out.println("********************");
 			break;
-
+			
+			
+			//CRUD
 		case "INSERT":
 
 			bollardService.addBollard("retractablebollard", list);//
@@ -213,6 +299,21 @@ public class ClientThread extends Thread {
 			System.out.println("Update sensor done for " + this.getName());
 			System.out.println("********************");
 			break;
+			
+			//CRUD
+		case "UPDATEInstalledToTrueState":
+			// Afficher le update
+			bollardService.UpdateBollardInstalledToTrueState(list);
+			bollardObject = bollardService.GenerateAllBollards();
+			System.out.println("Update done on bollard");
+
+			String outjsonStringUpdateBollardInstalledToTrueState = mapper.writeValueAsString(response);
+			out.write(outjsonStringUpdateBollardInstalledToTrueState + "\n");
+			out.flush();
+
+			System.out.println("Update done to " + this.getName());
+			System.out.println("********************");
+			break;
 
 		case "DELETE":
 			System.out.println(bollardService.deleteBollardById(Integer.parseInt(this.request.getList().get(0))));
@@ -223,14 +324,16 @@ public class ClientThread extends Thread {
 			System.out.println("********************");
 			break;
 			
-		case "DELETE_NOT_INSTALLED":
-			System.out.println(bollardService.deleteBollardNotInstalled());
+			//CRUD
+		case "DELETE_INSTALL_STATE":
+			System.out.println(bollardService.deleteBollardInstallState(list));
 			String outjsonStringDeleteUninstalledBollard = mapper.writeValueAsString(response);
 			out.write(outjsonStringDeleteUninstalledBollard + "\n");
 			out.flush();
 			System.out.println("A row deleted for " + this.getName());
 			System.out.println("********************");
 			break;
+		
 
 		}
 
