@@ -57,7 +57,8 @@ public class BollardSelect {
 
 	public static void main(String[] args) throws IOException, JSONException {
 		BollardSelect client1 = new BollardSelect();
-		client1.startConnection("localhost", 3030);
+		//client1.startConnection("localhost", 3030);
+		client1.startConnection("172.31.249.133", 3030);
 		Request request = new Request(SELECT_ALL, "bollard");
 		System.out.println("SERVER RESPONSE : " + client1.sendMessageToServer(request));
 		System.out.println("Display done");

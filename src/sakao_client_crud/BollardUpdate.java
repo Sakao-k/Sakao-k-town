@@ -57,7 +57,8 @@ public class BollardUpdate {
 
 	public static void main(String[] args) throws IOException, JSONException {
 		BollardUpdate client1 = new BollardUpdate();
-		client1.startConnection("localhost", 3030);
+		//client1.startConnection("localhost", 3030);
+		client1.startConnection("172.31.249.133", 3030);
 		TablesForCrud table = new TablesForCrud();
 		
 		
