@@ -14,6 +14,7 @@ public class JDBCConnectionPool {
 
 	///// Create the pool of connections
 	public JDBCConnectionPool() {
+		this.closeAllConnection();
 		this.initializeConnectionPool();
 		System.out.println(ConnectionFileReader.getMaxConnections() + " connexion(s) ha(s/ve) been created");
 	}
@@ -34,10 +35,13 @@ public class JDBCConnectionPool {
 		while (!IsFull()) {
 			try {
 				listConnectionavailable.add(this.createNewConnection());
+				
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		
+		//System.out.println("REAL SIZE "+listConnectionavailable.size());
 
 	}
 
@@ -54,17 +58,41 @@ public class JDBCConnectionPool {
 	///// Take a connection in the pool
 	public synchronized Connection getConnectionFromPool() {
 		Connection connection = null;
-		while (this.IsEmpty()) {
+		boolean b = false;
+		
+		
+		if(JDBCConnectionPool.listConnectionavailable.size() != 0) {
+			
+			
+			b = true;
+			this.notifyAll();
+			
+		}else {
+			
+			b = false;
+			System.out.println("Please wait");
+			
+		}
+		
+		while (b == false) {
 			try {
-				System.out.println("Please wait");
-				this.wait();
-			} catch (InterruptedException e) {
+				
+				wait(1);
+				if(JDBCConnectionPool.listConnectionavailable.size() != 0) {
+					b = true;
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		connection = listConnectionavailable.get(0);
-		listConnectionavailable.remove(0);
-		this.notifyAll();
+		
+			
+			connection = listConnectionavailable.get(0);
+			listConnectionavailable.remove(0);
+			b = false;
+			this.notifyAll();
+		
+		 
 		return connection;
 	}
 

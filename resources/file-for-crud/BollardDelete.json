@@ -2,10 +2,12 @@
 	"operation_type": "DELETE_INSTALL_STATE",
 	"target": "bollard",
 	"list": [
+
 		{
 			"bollardstate": true,
 			"IsInstalled" : true
-		},
+		}
+
 	]
 }
 

@@ -17,7 +17,7 @@ public class BollardService {
 		return controller.GenerateAllBollards();
 	}
 
-	public ArrayList<String> showAllBollards() throws ClassNotFoundException {
+	public ArrayList<String> showAllBollards() throws ClassNotFoundException, InterruptedException {
 		return controller.showAllBollards();
 	}
 

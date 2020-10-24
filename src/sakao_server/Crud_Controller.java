@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 
-import sakao_common.Student;
+
 
 import sakao_common.Bollard;
 
@@ -16,8 +16,6 @@ import sakao_common.VehicleSensor;
 import sakao_common.Zone;
 import sakao_connection_pool.DataSource;
 import sakao_common.SmartCity;
-
-import sakao_connection_pool.DataSource;
 
 public class Crud_Controller {
 
@@ -787,9 +785,14 @@ public class Crud_Controller {
 	 * } return retour; }
 	 */
 
-	public ArrayList<String> showAllBollards() throws ClassNotFoundException {
+	public ArrayList<String> showAllBollards() throws ClassNotFoundException, InterruptedException {
 		ArrayList<String> retour = new ArrayList<String>();
 		try {
+			
+			System.out.println("Connexion available on connexion pool before use : "+DataSource.getListConnectionavailable().size());
+	        Thread.sleep(3000);
+			System.out.println("Using");
+			
 			Connection con = DataSource.getConnection();
 			PreparedStatement pt = con.prepareStatement("select * from retractablebollard");
 			ResultSet rs = pt.executeQuery();
@@ -799,7 +802,17 @@ public class Crud_Controller {
 								.toString());
 
 			}
-			DataSource.returnConnection(con);
+			
+		      long start = System.currentTimeMillis();
+		      
+		       // System.out.println("Sleep time in ms = "+(System.currentTimeMillis()-start));
+		        
+		        System.out.println("Connection available on connection pool after use "+DataSource.getListConnectionavailable().size());
+		        System.out.println("10 seconde before the availability of the connection");
+		        Thread.sleep(10000);
+		        System.out.println(" return the connection+1");
+		        DataSource.returnConnection(con);
+		        System.out.println("Connection available on connection pool "+DataSource.getListConnectionavailable().size());
 		} catch (SQLException ex) {
 			System.out.println("erreur " + ex.getMessage());
 		}

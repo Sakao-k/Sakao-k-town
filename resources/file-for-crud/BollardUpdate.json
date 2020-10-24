@@ -2,14 +2,7 @@
 	"operation_type": "UPDATEInstalledToTrueState",
 	"target": "bollard",
 	"list": [
-		{
-			"bollardstate": true,
-			"IsInstalled" : true
-		},
-		{
-			"bollardstate": true,
-			"IsInstalled" : true
-		},
+
 		{
 			"bollardstate": true,
 			"IsInstalled" : true
