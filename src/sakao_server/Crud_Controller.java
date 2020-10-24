@@ -507,8 +507,9 @@ public class Crud_Controller {
 				retour.add(new Bollard(rs.getInt("idbollard"), rs.getBoolean("bollardstate"), rs.getInt("idzone"),
 						rs.getBoolean("isinstalled"), rs.getString("ipaddress"), rs.getString("macaddress")));
 
-				DataSource.returnConnection(con);
+				
 			}
+			DataSource.returnConnection(con);
 
 		} catch (SQLException ex) {
 			System.out.println("erreur " + ex.getMessage());
@@ -532,8 +533,9 @@ public class Crud_Controller {
 				smartcity = new SmartCity(rs.getInt("idcity"), rs.getString("name"), rs.getDouble("heightkm"),
 						rs.getDouble("widthkm"), rs.getInt("maxnumbervehicles"), rs.getInt("numberofvehicules"),
 						rs.getInt("maxpolution"), rs.getInt("polutionlevel"), rs.getInt("tramfrequency"));
-				DataSource.returnConnection(con);
+				
 			}
+			DataSource.returnConnection(con);
 
 		} catch (SQLException ex) {
 			System.out.println("erreur " + ex.getMessage());
@@ -892,9 +894,9 @@ public class Crud_Controller {
 						rs.getInt("nbofheavygoodsvehicle"), rs.getString("ipaddress"), rs.getString("macaddress"),
 						rs.getBoolean("isinstalled"), rs.getInt("idzone"), rs.getInt("idbollard")));
 
-				DataSource.returnConnection(con);
+				
 			}
-
+			DataSource.returnConnection(con);
 		} catch (SQLException ex) {
 			System.out.println("erreur " + ex.getMessage());
 		}
