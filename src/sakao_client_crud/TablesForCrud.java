@@ -10,10 +10,10 @@ import org.codehaus.jackson.JsonParser;
 
 public class TablesForCrud {
 
-	
-	public String readFileToInsertBollard() throws IOException {
-		
-		InputStreamReader ipsr = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("file-for-crud/Bollard.json"));
+	public String readFileToInsertBollard(String path) throws IOException {
+
+		InputStreamReader ipsr = new InputStreamReader(
+				getClass().getClassLoader().getResourceAsStream(/* "file-for-crud/Bollard.json" */path));
 		BufferedReader br = new BufferedReader(ipsr);
 		String outjsonString = "";
 		String chaine = "";
@@ -21,43 +21,7 @@ public class TablesForCrud {
 		while ((outjsonString = br.readLine()) != null) {
 			chaine = chaine + outjsonString;
 		}
-		//System.out.println("Request sent : " + chaine);
+		// System.out.println("Request sent : " + chaine);
 		return chaine;
 	}
-	
-	
-	
-	public String readFileToUpdateBollard() throws IOException {
-		
-		InputStreamReader ipsr = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("file-for-crud/BollardUpdate.json"));
-		BufferedReader br = new BufferedReader(ipsr);
-		String outjsonString = "";
-		String chaine = "";
-
-		while ((outjsonString = br.readLine()) != null) {
-			chaine = chaine + outjsonString;
-		}
-		//System.out.println("Request sent : " + chaine);
-		return chaine;
-	}
-	
-	
-
-	
-	
-	public String readFileToDeleteBollard() throws IOException {
-	
-		InputStreamReader ipsr = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("file-for-crud/BollardDelete.json"));
-		BufferedReader br = new BufferedReader(ipsr);
-		String outjsonString = "";
-		String chaine = "";
-
-		while ((outjsonString = br.readLine()) != null) {
-			chaine = chaine + outjsonString;
-		}
-		//System.out.println("Request sent : " + chaine);
-		return chaine;
-	}
-	
-	
 }
