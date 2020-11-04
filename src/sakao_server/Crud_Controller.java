@@ -174,17 +174,19 @@ public class Crud_Controller {
 		try {
 			Connection con = DataSource.getConnection();
 			String req = "UPDATE smartcity SET maxnumbervehicles=?, numberofvehicules=?, maxpolution=?, polutionlevel=?, tramfrequency=?\r\n"
-					+ "	WHERE idcity = 1;";
+					+ "	WHERE idcity = 1";
 
 			PreparedStatement pstm = con.prepareStatement(req);
 			int i = 2;
 
 			while (i < list.size()) {
+				
+				System.out.println(list.get(i));
 				pstm.setInt(1, Integer.parseInt((list.get(i)))); // MaxnumberVeh
 				pstm.setInt(2, Integer.parseInt(list.get(i + 2))); // numberofvehicules
-				pstm.setInt(4, Integer.parseInt(list.get(i + 4)));// maxpolution
-				pstm.setInt(5, Integer.parseInt(list.get(i + 6)));// polutionlevel
-				pstm.setInt(6, Integer.parseInt(list.get(i + 8)));// tramfrequecy
+				pstm.setInt(3, Integer.parseInt(list.get(i + 4)));// maxpolution
+				pstm.setInt(4, Integer.parseInt(list.get(i + 6)));// polutionlevel
+				pstm.setInt(5, Integer.parseInt(list.get(i + 8)));// tramfrequecy
 				pstm.executeUpdate();
 
 				smartCityObject.setMaxNumberVehicles(Integer.parseInt((list.get(i))));
@@ -547,7 +549,7 @@ public class Crud_Controller {
 			ArrayList<VehicleSensor> listVehicleSensorObj) throws ClassNotFoundException {
 		try {
 			Connection con = DataSource.getConnection();
-			String req = "UPDATE vehiclesensor SET  nboflightcommercialvehicle=?, nbofcompactcar=?, nbofheavygoodsvehicle=?,  WHERE idvehiclesensor =? and sensortype= ?;";
+			String req = "UPDATE vehiclesensor SET  nboflightcommercialvehicle=?, nbofcompactcar=?, nbofheavygoodsvehicle=?  WHERE idvehiclesensor =? and sensortype= ?;";
 
 			PreparedStatement pstm = con.prepareStatement(req);
 			int i = 2;

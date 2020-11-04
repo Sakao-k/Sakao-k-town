@@ -65,11 +65,12 @@ public class BollardInsert {
 
 	public static void main(String[] args) throws IOException, JSONException {
 		BollardInsert client1 = new BollardInsert();
-		//client1.startConnection("localhost", 3030);
-		client1.startConnection("172.31.249.133", 3030);
+		client1.startConnection("localhost", 3030);
+	    //client1.startConnection("172.31.249.133", 3030);
 		TablesForCrud table = new TablesForCrud();
 		Request req1 = new ObjectMapper().readValue(table.readFileToInsertBollard(), Request.class);
 		client1.sendMessageToServer(req1);
+	//	client1.sendMessageToServer(req1);
 		System.out.println("Insert done");
 		System.out.println("********************");
 		client1.CloseConnection();

@@ -83,7 +83,7 @@ public class TestVehicleSensor1 {
 		client1.sendMessageToServer(req1);
 		System.out.println("Update done");
 		System.out.println("********************");
-		
+	/*	
 		System.out.println("TEST 1");
 		System.out.println("Updated SensorVehiculeInput1 to 100 ");
 		System.out.println("SensorVehiculeOutput2 = 125");
@@ -97,16 +97,16 @@ public class TestVehicleSensor1 {
 		System.out.println("TramFrequency : 6/10");
 		
 		
+		*/
 		
-		
-		Request req3 = new ObjectMapper().readValue(table.readFileVehiclesTEST1(), Request.class);
+		//Request req3 = new ObjectMapper().readValue(table.readFileVehiclesTEST1(), Request.class);
 		
 	
 		//System.out.println(req1);
 		
 
 		
-		client1.sendMessageToServer(req3);
+	//	client1.sendMessageToServer(req3);
 		System.out.println("Update done");
 		System.out.println("********************");
 		client1.CloseConnection();

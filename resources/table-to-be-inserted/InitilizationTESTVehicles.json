@@ -1,0 +1,40 @@
+{
+	"operation_type": "Update",
+	"target": "vehiclesSensor",
+	"list": [
+		{	
+			"IDVehicleSensor" : 1,  
+			"SensorTypeIO": "Input",
+			"nboflightcommercialvehicle": 0,
+			"nbofcompactcar": 0,
+			"nbofheavygoodsvehicle": 0
+
+		},
+		{	
+			"IDVehicleSensor" : 1,  
+			"SensorTypeIO": "Input",
+			"nboflightcommercialvehicle": 0,
+			"nbofcompactcar": 0,
+			"nbofheavygoodsvehicle": 0
+
+		},
+		{	
+			"IDVehicleSensor" : 1,  
+			"SensorTypeIO": "Input",
+			"nboflightcommercialvehicle": 0,
+			"nbofcompactcar": 0,
+			"nbofheavygoodsvehicle": 0
+
+		},
+		{	
+			"IDVehicleSensor" : 1,  
+			"SensorTypeIO": "Input",
+			"nboflightcommercialvehicle": 0,
+			"nbofcompactcar": 0,
+			"nbofheavygoodsvehicle": 0
+
+		}
+	]
+}
+
+
