@@ -57,7 +57,12 @@ public class Client {
 		out.flush();
 		String injsonString = in.readLine();
 		response = mapper.readValue(injsonString, Response.class);
+		if (request.getOperation_type().equals(SELECT_ALL)) {
+			System.out.println("Response");
+			System.out.println(injsonString);
+		}
 		return response.toString();
+		
 	}
 
 	public void CloseConnection() throws IOException {
