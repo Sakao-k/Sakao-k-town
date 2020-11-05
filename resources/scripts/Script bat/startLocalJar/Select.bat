@@ -1,0 +1,1 @@
+java -jar Pds-sakao-dettes/R2/Client.jar "file-for-crud/BollardSelect.json"
