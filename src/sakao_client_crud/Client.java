@@ -27,7 +27,6 @@ public class Client {
 
 	private ObjectMapper mapper;
 
-	private TablesForCrud table;
 
 	public Client(String path) throws IOException, JSONException {
 
@@ -72,11 +71,27 @@ public class Client {
 		clientSocket.close();
 		System.out.println("disconnected");
 	}
+	
+	
+	public String readFile(String path) throws IOException {
+
+		InputStreamReader ipsr = new InputStreamReader(
+				getClass().getClassLoader().getResourceAsStream(/* "file-for-crud/Bollard.json" */path));
+		BufferedReader br = new BufferedReader(ipsr);
+		String outjsonString = "";
+		String chaine = "";
+
+		while ((outjsonString = br.readLine()) != null) {
+			chaine = chaine + outjsonString;
+		}
+		// System.out.println("Request sent : " + chaine);
+		return chaine;
+	}
 
 	private void RequestToSend(String path) throws IOException {
 
-		table = new TablesForCrud();
-		Request request = new ObjectMapper().readValue(table.readFileToInsertBollard(path), Request.class);
+		
+		Request request = new ObjectMapper().readValue(this.readFile(path), Request.class);
 		this.sendMessageToServer(request);
 
 	}
