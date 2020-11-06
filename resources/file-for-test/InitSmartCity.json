@@ -5,8 +5,8 @@
 		{	
 			"maxnumbervehicles": 500,
 			"numberofvehicules": 200,
-			"maxpolution": 100,
-			"polutionlevel": 200,
+			"maxpolution": 700,
+			"polutionlevel": 365,
 			"tramfrequency" : 6
 		}
 	]

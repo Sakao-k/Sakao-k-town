@@ -101,28 +101,44 @@ public class ClientThread extends Thread {
 		System.out.println("Avant dans le check : " + bollardObject);
 
 		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject); // in + incity - out)
+		
 		// vehicleSensorObject.clear();
-		System.out.println(NbVehicleInCirculation);
+		// System.out.println(NbVehicleInCirculation);
+		double CurentPolution = smartCityObject.PoltutionPerVehicleInCirculation(vehicleSensorObject);
+		System.out.println(CurentPolution);
 
 		smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
+		smartCityServices.updateCurrentPolution(CurentPolution);
 
 		smartCityObject = smartCityServices.GenerateCity();
-
 		System.out.println(vehicleSensorObject);
 		System.out.println(smartCityObject);
 		/////////////////////////////////////////////////////////////////////////////////////////
 		System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
+		System.out.println("CurentPolution = " + CurentPolution);
 
 		int Max = smartCityObject.getMaxNumberVehicles();
 		int Maxminus20 = ((Max) - ((Max * 20) / 100)); // -20% of max
 
-		if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true) {
+		double MaxPolution = smartCityObject.getMaxPolution();
+		double MaxPolutionmunus20 = ((MaxPolution) - ((MaxPolution * 20) / 100));
+
+		if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true
+				|| smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
 
 			bollardService.Updatetrue(bollardObject);
 			bollardObject = bollardService.GenerateAllBollards();
 
 			smartCityServices.updateTramFrequency(10);
 			smartCityObject = smartCityServices.GenerateCity();
+			if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true) {
+				System.out.println("Treshold Number of vehicles !!!");
+			}
+
+			/*if (smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
+				System.out.println("Treshold Polution !!!");
+
+			}*/
 
 			System.out.println("Retractable bollards are raised");
 			System.out.println("Tramfrequency =  10/10");
@@ -134,13 +150,23 @@ public class ClientThread extends Thread {
 
 		else {
 
-			if (NbVehicleInCirculation < Maxminus20) {
+			if (NbVehicleInCirculation < Maxminus20 && CurentPolution < MaxPolutionmunus20) {
 
 				bollardService.Updatefalse(bollardObject);
 				bollardObject = bollardService.GenerateAllBollards();
 
 				smartCityServices.updateTramFrequency(6);
 				smartCityObject = smartCityServices.GenerateCity();
+
+				if (NbVehicleInCirculation < Maxminus20) {
+
+					System.out.println("Lower Number of vehicles");
+				}
+
+				if (CurentPolution < MaxPolutionmunus20) {
+
+					System.out.println("Lower Polution");
+				}
 
 				System.out.println("Retractable bollards are lowered");
 				System.out.println("Tramfrequency =  6/10");
@@ -151,7 +177,16 @@ public class ClientThread extends Thread {
 					smartCityServices.updateTramFrequency(8);
 					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
 
-					System.out.println("Number of vehicule is decreasing in town");
+					if (NbVehicleInCirculation > Maxminus20-1) {
+
+						System.out.println("Number of vehicule is decreasing in town");
+					}
+
+					if (CurentPolution > MaxPolutionmunus20-1) {
+
+						System.out.println("Polution is decreasing in town");
+					}
+					
 					System.out.println("Retractable bollards are raised");
 					System.out.println("Tramfrequency =  8/10");
 				} else {
@@ -159,7 +194,18 @@ public class ClientThread extends Thread {
 					smartCityServices.updateTramFrequency(8);
 					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
 
-					System.out.println("Number of vehicule is increasing in town");
+					
+					
+					if (NbVehicleInCirculation > Maxminus20-1) {
+
+						System.out.println("Number of vehicule is increasing in town");
+					}
+
+					if (CurentPolution > MaxPolutionmunus20-1) {
+
+						System.out.println("Polution is increasing in town");
+					}
+					
 					System.out.println("Retractable bollards are lowered");
 					System.out.println("Tramfrequency =  8/10");
 
