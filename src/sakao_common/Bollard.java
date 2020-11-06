@@ -73,7 +73,7 @@ public class Bollard {
 	public void setIdZone(int idZone) {
 		this.idZone = idZone;
 	}
-/*
+
 	public String toString() {
 		return "{\"idBollard\":\"" + this.getIdBollard() + "\"," 
 				+ "\"bollardState\":\"" + this.getIsBollardState() + "\"," 
@@ -84,7 +84,7 @@ public class Bollard {
 				+ "\"}";
 	}
 	
-*/
+
 	// public Zone getZone() {
 //		return zone;
 //	}
@@ -97,11 +97,11 @@ public class Bollard {
 //		return "Bollard [idBollard=" + idBollard + ", BollardState=" + BollardState + ", idZone=" + idZone + "]";
 //	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "Bollard [idBollard=" + idBollard + ", idZone=" + idZone + ", bollardState=" + bollardState
 				+ ", isInstalled=" + isInstalled + ", ipaddress=" + ipaddress + ", macaddress=" + macaddress + "]";
-	}
+	}*/
 
 	/*
 	 * @Override public String toString() { return "Bollard [idBollard=" + idBollard

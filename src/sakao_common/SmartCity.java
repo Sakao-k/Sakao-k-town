@@ -42,28 +42,28 @@ public class SmartCity {
 
 	}
 
-	/*
-	 * public String toString() { return "{\"id\":\"" + this.id + "\"," +
-	 * "\"name\":\"" + this.name + "\"," + "\"heightkm\":\"" + this.getHeightkm() +
-	 * "\"," + "\"widthkm\":\"" + this.getWidthkm() + "\"," +
-	 * 
-	 * "\"maxnumberofvehicles\":\"" + this.getMaxNumberVehicles() + "\"," +
-	 * "\"numbervehicles\":\"" + this.getNumberVehicles() + "\"," +
-	 * 
-	 * "\"maxPolution\":\"" + this.getMaxPolution() + "\"," + "\"polutionLevel\":\""
-	 * + this.getPolutionLevel() + "\"," +
-	 * 
-	 * "\"tramfrequency\":\"" + this.getTramFrequency() + "\"}";
-	 * 
-	 * }
-	 */
+	
+	  public String toString() { return "{\"id\":\"" + this.id + "\"," +
+	  "\"name\":\"" + this.name + "\"," + "\"heightkm\":\"" + this.getHeightkm() +
+	  "\"," + "\"widthkm\":\"" + this.getWidthkm() + "\"," +
+	  
+	  "\"maxnumberofvehicles\":\"" + this.getMaxNumberVehicles() + "\"," +
+	  "\"numbervehicles\":\"" + this.getNumberVehicles() + "\"," +
+	  
+	  "\"maxPolution\":\"" + this.getMaxPolution() + "\"," + "\"polutionLevel\":\""
+	  + this.getPolutionLevel() + "\"," +
+	  
+	  "\"tramfrequency\":\"" + this.getTramFrequency() + "\"}";
+	  
+	  }
+	 
 
-	@Override
+/*	@Override
 	public String toString() {
 		return "SmartCity [id=" + id + ", name=" + name + ", heightkm=" + heightkm + ", widthkm=" + widthkm
 				+ ", maxNumberVehicles=" + maxNumberVehicles + ", numberVehicles=" + numberVehicles + ", maxPolution="
 				+ maxPolution + ", polutionLevel=" + polutionLevel + ", tramFrequency=" + tramFrequency + "]";
-	}
+	}*/
 
 	public int getId() {
 		return id;

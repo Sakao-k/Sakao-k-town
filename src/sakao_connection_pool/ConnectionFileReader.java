@@ -7,7 +7,7 @@ import java.util.Properties;
 public final class ConnectionFileReader {
 
 	private Properties p;
-	private final static int MAX_CONNECTIONS = 1;
+	private final static int MAX_CONNECTIONS = 3;
 
 
 	public ConnectionFileReader() {

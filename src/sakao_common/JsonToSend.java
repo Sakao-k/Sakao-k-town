@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
@@ -41,7 +42,7 @@ public class JsonToSend {
 
 	}
 
-	public String sendMessageToServer(Request request) throws IOException {
+	/*public String sendMessageToServer(Request request) throws IOException {
 		mapper = new ObjectMapper();
 		String outjsonString = mapper.writeValueAsString(request);
 		System.out.println("REQUEST SENT");
@@ -58,6 +59,27 @@ public class JsonToSend {
 		}
 		return response.toString();
 		
+	}*/
+	
+	public ArrayList<String> sendMessageToServer(Request request) throws IOException {
+		mapper = new ObjectMapper();
+		String outjsonString = mapper.writeValueAsString(request);
+		System.out.println("REQUEST SENT");
+		System.out.println(outjsonString);
+		System.out.println(" _____");
+		System.out.println("");
+		out.write(outjsonString + "\n");
+		out.flush();
+		String injsonString = in.readLine();
+		System.out.println(injsonString);
+		response = mapper.readValue(injsonString, Response.class);
+		if (request.getOperation_type().equals(SELECT_ALL)) {
+			System.out.println("Response");
+			System.out.println(injsonString);
+		}
+
+		
+		return response.getList();
 	}
 
 	public void CloseConnection() throws IOException {
