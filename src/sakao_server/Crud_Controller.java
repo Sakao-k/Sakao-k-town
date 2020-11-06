@@ -189,11 +189,11 @@ public class Crud_Controller {
 				pstm.setInt(5, Integer.parseInt(list.get(i + 8)));// tramfrequecy
 				pstm.executeUpdate();
 
-				smartCityObject.setMaxNumberVehicles(Integer.parseInt((list.get(i))));
+			/*	smartCityObject.setMaxNumberVehicles(Integer.parseInt((list.get(i))));
 				smartCityObject.setNumberVehicles(Integer.parseInt(list.get(i + 2)));
 				smartCityObject.setMaxPolution(Integer.parseInt(list.get(i + 4)));
 				smartCityObject.setPolutionLevel(Integer.parseInt(list.get(i + 6)));
-				smartCityObject.setTramFrequency(Integer.parseInt(list.get(i + 8)));
+				smartCityObject.setTramFrequency(Integer.parseInt(list.get(i + 8)));*/
 
 				i += 12;
 
@@ -564,8 +564,8 @@ public class Crud_Controller {
 				pstm.setInt(3, Integer.parseInt(list.get(i + 8)));// nbofheavygoodsvehicle
 				pstm.executeUpdate();
 
-				// Don't work if generateobject is commented in clientThreadnbofcompactcar
-				for (VehicleSensor sensor : listVehicleSensorObj) {
+				
+				/*for (VehicleSensor sensor : listVehicleSensorObj) {
 					if ((sensor.getIdVehicleSensor() == Integer.parseInt((list.get(i))))) {// id sensor === id sensor
 
 						sensor.setNbOfLightCommercialVehicle(Integer.parseInt(list.get(i + 4)));
@@ -574,7 +574,7 @@ public class Crud_Controller {
 
 					}
 
-				}
+				}*/
 
 				i += 12;
 

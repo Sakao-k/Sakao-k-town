@@ -74,13 +74,15 @@ public class ClientThread extends Thread {
 			bollardObject = bollardService.GenerateAllBollards();
 			smartCityObject = smartCityServices.GenerateCity();
 
-			/*
-			 * System.out.println("Objets generés :"); System.out.println("");
-			 * System.out.println(vehicleSensorObject); System.out.println("");
-			 * System.out.println(bollardObject); System.out.println("");
-			 * System.out.println(smartCityObject); System.out.println("");
-			 * System.out.println("Fin objets generés");
-			 */
+			System.out.println("Objets generés :");
+			System.out.println("");
+			System.out.println(vehicleSensorObject);
+			System.out.println("");
+			System.out.println(bollardObject);
+			System.out.println("");
+			System.out.println(smartCityObject);
+			System.out.println("");
+			System.out.println("Fin objets generés");
 
 		} catch (Exception e) {
 
@@ -88,54 +90,51 @@ public class ClientThread extends Thread {
 
 	}
 
-	
-	
 	private void CheckVehiclesThreshold() throws ClassNotFoundException {
 
-		bollardObject = bollardService.GenerateAllBollards();
+//		bollardObject = bollardService.GenerateAllBollards();
+//		vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
+//		smartCityObject = smartCityServices.GenerateCity();
 
+		System.out.println("Avant dans le check : " + vehicleSensorObject);
+		System.out.println("Avant dans le check : " + smartCityObject);
+		System.out.println("Avant dans le check : " + bollardObject);
 
+		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject); // in + incity - out)
+		// vehicleSensorObject.clear();
+		System.out.println(NbVehicleInCirculation);
 
-		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject);
-		double PoltutionInTown= smartCityObject.PoltutionPerVehicleInCirculation(vehicleSensorObject);
 		smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
-		smartCityServices.updateCurrentPolution(PoltutionInTown);
-		
+
 		smartCityObject = smartCityServices.GenerateCity();
 
+		System.out.println(vehicleSensorObject);
+		System.out.println(smartCityObject);
+		/////////////////////////////////////////////////////////////////////////////////////////
 		System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
-		System.out.println("Current Polution in Town= " + PoltutionInTown);
 
 		int Max = smartCityObject.getMaxNumberVehicles();
 		int Maxminus20 = ((Max) - ((Max * 20) / 100)); // -20% of max
-		
-		int MaxPolution = smartCityObject.getMaxPolution();
-		int MaxPolutionminus20 = ((MaxPolution) - ((MaxPolution * 20) / 100)); // -20% of max
 
 		if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true) {
-		// Si le nb de vehicle circulent est superieur au seuil
 
-			// Alors on leve les borne
 			bollardService.Updatetrue(bollardObject);
 			bollardObject = bollardService.GenerateAllBollards();
 
-			// et On augmente la frequence des tram aux max cad 10
 			smartCityServices.updateTramFrequency(10);
 			smartCityObject = smartCityServices.GenerateCity();
-
-
 
 			System.out.println("Retractable bollards are raised");
 			System.out.println("Tramfrequency =  10/10");
 
-		} 
-		
+		} /*
+			 * else if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation)
+			 * == false && bollardObject.get(0).getIsInstalled() == true) {
+			 */
+
 		else {
-		// 2. SINON	
-			
 
 			if (NbVehicleInCirculation < Maxminus20) {
-				//2.1 SI le nombre de ve
 
 				bollardService.Updatefalse(bollardObject);
 				bollardObject = bollardService.GenerateAllBollards();
@@ -150,8 +149,7 @@ public class ClientThread extends Thread {
 				if (bollardObject.get(1).getIsBollardState() == true) {
 
 					smartCityServices.updateTramFrequency(8);
-					smartCityObject = smartCityServices.GenerateCity();
-					// Faire liste des bollard
+					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
 
 					System.out.println("Number of vehicule is decreasing in town");
 					System.out.println("Retractable bollards are raised");
@@ -159,8 +157,7 @@ public class ClientThread extends Thread {
 				} else {
 
 					smartCityServices.updateTramFrequency(8);
-					smartCityObject = smartCityServices.GenerateCity();
-					// Faire liste des bollard
+					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
 
 					System.out.println("Number of vehicule is increasing in town");
 					System.out.println("Retractable bollards are lowered");
@@ -173,13 +170,12 @@ public class ClientThread extends Thread {
 
 	}
 
-
-	public void CrudBollard(String operation_type, String target, ArrayList<String> list)
-			throws ClassNotFoundException, JsonGenerationException, JsonMappingException, IOException, InterruptedException {
+	public void CrudBollard(String operation_type, String target, ArrayList<String> list) throws ClassNotFoundException,
+			JsonGenerationException, JsonMappingException, IOException, InterruptedException {
 
 		switch (operation_type) {
-		
-		//Crud
+
+		// Crud
 		case "SELECT_ALL":
 
 			response.setList(bollardService.showAllBollards());
@@ -189,15 +185,14 @@ public class ClientThread extends Thread {
 			System.out.println("Display done to " + this.getName());
 			System.out.println("********************");
 			break;
-			
-			
-			//CRUD
+
+		// CRUD
 		case "INSERT":
 
 			bollardService.addBollard("retractablebollard", list);//
 			bollardObject = bollardService.GenerateAllBollards();
 
-		//	System.out.println(bollardObject);
+			System.out.println(bollardObject);
 
 			String outjsonStringInsert = mapper.writeValueAsString(response);
 			out.write(outjsonStringInsert + "\n");
@@ -222,20 +217,20 @@ public class ClientThread extends Thread {
 			break;
 
 		case "UPDATEinstall":
-			System.out.println(this.bollardService.UpdateBollardIsInstalled(Integer.parseInt(this.request.getList().get(0)),
-					Boolean.valueOf(this.request.getList().get(1))));
+			System.out.println(this.bollardService.UpdateBollardIsInstalled(
+					Integer.parseInt(this.request.getList().get(0)), Boolean.valueOf(this.request.getList().get(1))));
 			String outjsonStringUPDATEinstall = mapper.writeValueAsString(response);
 			out.write(outjsonStringUPDATEinstall + "\n");
 			out.flush();
 			System.out.println("Update sensor done for " + this.getName());
 			System.out.println("********************");
 			break;
-			
-			//CRUD
+
+		// CRUD
 		case "UPDATEInstalledToTrueState":
 			// Afficher le update
 			bollardService.UpdateBollardInstalledToTrueState(list);
-			bollardObject = bollardService.GenerateAllBollards();
+			// bollardObject = bollardService.GenerateAllBollards();
 			System.out.println("Update done on bollard");
 
 			String outjsonStringUpdateBollardInstalledToTrueState = mapper.writeValueAsString(response);
@@ -254,8 +249,8 @@ public class ClientThread extends Thread {
 			System.out.println("A row deleted for " + this.getName());
 			System.out.println("********************");
 			break;
-			
-			//CRUD
+
+		// CRUD
 		case "DELETE_INSTALL_STATE":
 			System.out.println(bollardService.deleteBollardInstallState(list));
 			String outjsonStringDeleteUninstalledBollard = mapper.writeValueAsString(response);
@@ -264,7 +259,6 @@ public class ClientThread extends Thread {
 			System.out.println("A row deleted for " + this.getName());
 			System.out.println("********************");
 			break;
-		
 
 		}
 
@@ -315,16 +309,17 @@ public class ClientThread extends Thread {
 
 		case "Update":
 
+			System.out.println("Avant :" + vehicleSensorObject);
 			vehiclesSensorService.UpdateSensorVehicles(target, list, vehicleSensorObject);
 			vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
-			/*System.out.println("");
+			System.out.println("");
 			System.out.println("List Sensor Objet Updated :");
 			System.out.println("");
 			System.out.println(vehicleSensorObject);
 			System.out.println("");
 			System.out.println("Fin object updated");
-			System.out.println("");*/
-			//this.CheckVehiclesThreshold();
+			System.out.println("");
+			this.CheckVehiclesThreshold();
 			String outjsonStringUpdate = mapper.writeValueAsString(response);
 			out.write(outjsonStringUpdate + "\n");
 			out.flush();
@@ -342,8 +337,11 @@ public class ClientThread extends Thread {
 
 		case "Update":
 
+			System.out.println("Avant :" + smartCityObject);
+
 			smartCityServices.UpdateSmartCityVehicles(target, list, smartCityObject);
 			smartCityObject = smartCityServices.GenerateCity();
+			// System.out.println("Après :"+ smartCityObject);
 
 			String outjsonStringUpdateSmart = mapper.writeValueAsString(response);
 			out.write(outjsonStringUpdateSmart + "\n");
@@ -351,7 +349,7 @@ public class ClientThread extends Thread {
 			// System.out.println("");
 			System.out.println("SmartCity object Updated :");
 			System.out.println("");
-		//	System.out.println(smartCityObject);
+			System.out.println(smartCityObject);
 			System.out.println("");
 			System.out.println("Fin object updated");
 			System.out.println("");
@@ -411,14 +409,14 @@ public class ClientThread extends Thread {
 			NullPointerException, JSONException {
 		mapper = new ObjectMapper();
 		String outjsonString = in.readLine();
-		
-		System.out.println("Recieved from client : "+ this.getName());
+
+		System.out.println("Recieved from client : " + this.getName());
 		System.out.println(outjsonString);
 
 		request = mapper.readValue(outjsonString, Request.class);
 		System.out.println("List :");
 		System.out.println(request.getList());
-	//	System.out.println(request.getList().size());
+		// System.out.println(request.getList().size());
 		System.out.println("       ");
 ///// String operation_type = request.getOperation_type();
 		String target = this.request.getTarget();
@@ -466,7 +464,7 @@ public class ClientThread extends Thread {
 			System.out.println(this.getName() + " connected");
 			System.out.println("********************");
 			System.out.println("");
-			 this.GenerateObject(); 
+			this.GenerateObject();
 			// this.CheckVehiclesThreshold();
 			while (shouldRun) {
 				this.StartCrud();
