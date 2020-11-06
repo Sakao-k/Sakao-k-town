@@ -3,14 +3,17 @@ package sakao_client_crud;
 import java.io.IOException;
 import org.json.JSONException;
 
-public class ClientMain extends Client {
+import sakao_common.JsonToSend;
 
-	public ClientMain(String path) throws IOException, JSONException {
-		super(path);
+public class ClientMain extends JsonToSend {
+
+	public ClientMain() throws IOException, JSONException {
+		super();
 	}
 
 	public static void main(String[] args) throws IOException, JSONException {
-		new ClientMain(args[0]);
+		ClientMain client1 = new ClientMain();
+		client1.RequestToSend(args[0]);
 		//new ClientMain("file-for-crud/BollardSelect.json");
 		// Eclipse run configaration : 
 		//args[0] : Select

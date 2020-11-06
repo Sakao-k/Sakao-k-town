@@ -1,10 +1,9 @@
 package sakao_client_test;
 
 import java.io.IOException;
-
 import org.json.JSONException;
+import sakao_common.JsonToSend;
 
-import sakao_client_crud.ClientMain;
 
 public class SpecMidleIncreaseCirculation {
 
@@ -24,9 +23,11 @@ public class SpecMidleIncreaseCirculation {
 		System.out.println("********************************");
 		
 		
+		JsonToSend SpecMidleIncreaseCirculation = new JsonToSend();
 		
-		ClientMain InitSmartCity = new ClientMain("file-for-test/InitSmartCity.json");
-		ClientMain InitVehiculesSensor = new ClientMain("file-for-test/InitVehiculesSensor.json");
+		SpecMidleIncreaseCirculation.RequestToSend("file-for-test/InitSmartCity.json");
+		SpecMidleIncreaseCirculation.RequestToSend("file-for-test/InitVehiculesSensor.json");
+		
 
 		
 		System.out.println("TEST 3");
@@ -41,7 +42,9 @@ public class SpecMidleIncreaseCirculation {
 		System.out.println("Number of vehicule in circulation = 200+400-200 = 400");
 		System.out.println("TramFrequency : 8/10");
 		
-		ClientMain MidleIncreaseCirulation = new ClientMain("file-for-test/TestVehicles3.json");
+		
+		SpecMidleIncreaseCirculation.RequestToSend("file-for-test/TestVehicles3.json");
+		SpecMidleIncreaseCirculation.CloseConnection();
 
 		
 	}

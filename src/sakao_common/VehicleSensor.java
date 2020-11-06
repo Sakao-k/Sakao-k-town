@@ -39,7 +39,7 @@ public class VehicleSensor {
 
 	}
 
-	public String toString() {
+	/*public String toString() {
 		return "{\"idVehicleSensor\":\"" + this.idVehicleSensor + "\","
 
 				+ "\"sensorType\":\"" + this.getSensorType() + "\","
@@ -54,10 +54,20 @@ public class VehicleSensor {
 
 				+ "\"idZone\":\"" + this.getIdZone() + "\"," + "\"idBollard\":\"" + this.getIdBollard() + "\"}";
 
-	}
+	}*/
 
+	
+	
 	public int getIdVehicleSensor() {
 		return idVehicleSensor;
+	}
+
+	@Override
+	public String toString() {
+		return "VehicleSensor [idVehicleSensor=" + idVehicleSensor + ", sensorType=" + sensorType
+				+ ", NbOfLightCommercialVehicle=" + NbOfLightCommercialVehicle + ", NbOfCompactCar=" + NbOfCompactCar
+				+ ", NbOfHeavyGoodsVehicle=" + NbOfHeavyGoodsVehicle + ", ipAddress=" + ipAddress + ", macAddress="
+				+ macAddress + ", isInstalled=" + isInstalled + ", idZone=" + idZone + ", idBollard=" + idBollard + "]";
 	}
 
 	public void setIdVehicleSensor(int idVehicleSensor) {

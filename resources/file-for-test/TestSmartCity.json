@@ -1,0 +1,15 @@
+{
+	"operation_type": "Update",
+	"target": "smartcity",
+	"list": [
+		{	
+			"maxnumbervehicles": 500,
+			"numberofvehicules": 10000,
+			"maxpolution": 100,
+			"polutionlevel": 200,
+			"tramfrequency" : 6
+		}
+	]
+}
+
+

@@ -42,18 +42,27 @@ public class SmartCity {
 
 	}
 
+	/*
+	 * public String toString() { return "{\"id\":\"" + this.id + "\"," +
+	 * "\"name\":\"" + this.name + "\"," + "\"heightkm\":\"" + this.getHeightkm() +
+	 * "\"," + "\"widthkm\":\"" + this.getWidthkm() + "\"," +
+	 * 
+	 * "\"maxnumberofvehicles\":\"" + this.getMaxNumberVehicles() + "\"," +
+	 * "\"numbervehicles\":\"" + this.getNumberVehicles() + "\"," +
+	 * 
+	 * "\"maxPolution\":\"" + this.getMaxPolution() + "\"," + "\"polutionLevel\":\""
+	 * + this.getPolutionLevel() + "\"," +
+	 * 
+	 * "\"tramfrequency\":\"" + this.getTramFrequency() + "\"}";
+	 * 
+	 * }
+	 */
+
+	@Override
 	public String toString() {
-		return "{\"id\":\"" + this.id + "\"," + "\"name\":\"" + this.name + "\"," + "\"heightkm\":\""
-				+ this.getHeightkm() + "\"," + "\"widthkm\":\"" + this.getWidthkm() + "\"," +
-
-				"\"maxnumberofvehicles\":\"" + this.getMaxNumberVehicles() + "\"," + "\"numbervehicles\":\""
-				+ this.getNumberVehicles() + "\"," +
-
-				"\"maxPolution\":\"" + this.getMaxPolution() + "\"," + "\"polutionLevel\":\"" + this.getPolutionLevel()
-				+ "\"," +
-
-				"\"tramfrequency\":\"" + this.getTramFrequency() + "\"}";
-
+		return "SmartCity [id=" + id + ", name=" + name + ", heightkm=" + heightkm + ", widthkm=" + widthkm
+				+ ", maxNumberVehicles=" + maxNumberVehicles + ", numberVehicles=" + numberVehicles + ", maxPolution="
+				+ maxPolution + ", polutionLevel=" + polutionLevel + ", tramFrequency=" + tramFrequency + "]";
 	}
 
 	public int getId() {
@@ -186,7 +195,7 @@ public class SmartCity {
 	}
 
 	public boolean CheckThresholdNbMaxVehicles(int NbVehicleInCirculation) {
-		//Si le nb de vehicle circulent est superieur au seuil
+		// Si le nb de vehicle circulent est superieur au seuil
 
 		if (NbVehicleInCirculation >= this.maxNumberVehicles) {
 			return true;
@@ -197,7 +206,7 @@ public class SmartCity {
 	}
 
 	public boolean CheckThresholdMaxPolution(double PoltutionPerVehicleInCirculation) {
-		//Si la polution dans la ville est superieur AU seuil
+		// Si la polution dans la ville est superieur AU seuil
 
 		if (PoltutionPerVehicleInCirculation >= this.maxPolution) {
 			return true;

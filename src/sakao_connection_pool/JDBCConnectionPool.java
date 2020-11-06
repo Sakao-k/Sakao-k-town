@@ -5,9 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
-import sakao_server.ClientThread;
-
 public class JDBCConnectionPool {
 
 	private static ArrayList<Connection> listConnectionavailable = new ArrayList<Connection>();///// OK
@@ -35,13 +32,13 @@ public class JDBCConnectionPool {
 		while (!IsFull()) {
 			try {
 				listConnectionavailable.add(this.createNewConnection());
-				
+
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		//System.out.println("REAL SIZE "+listConnectionavailable.size());
+
+		// System.out.println("REAL SIZE "+listConnectionavailable.size());
 
 	}
 
@@ -59,40 +56,36 @@ public class JDBCConnectionPool {
 	public synchronized Connection getConnectionFromPool() {
 		Connection connection = null;
 		boolean b = false;
-		
-		
-		if(JDBCConnectionPool.listConnectionavailable.size() != 0) {
-			
-			
+
+		if (JDBCConnectionPool.listConnectionavailable.size() != 0) {
+
 			b = true;
 			this.notifyAll();
-			
-		}else {
-			
+
+		} else {
+
 			b = false;
 			System.out.println("Please wait");
-			
+
 		}
-		
+
 		while (b == false) {
 			try {
-				
+
 				wait(1);
-				if(JDBCConnectionPool.listConnectionavailable.size() != 0) {
+				if (JDBCConnectionPool.listConnectionavailable.size() != 0) {
 					b = true;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
-			
-			connection = listConnectionavailable.get(0);
-			listConnectionavailable.remove(0);
-			b = false;
-			this.notifyAll();
-		
-		 
+
+		connection = listConnectionavailable.get(0);
+		listConnectionavailable.remove(0);
+		b = false;
+		this.notifyAll();
+
 		return connection;
 	}
 

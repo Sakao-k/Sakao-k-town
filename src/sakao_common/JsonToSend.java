@@ -1,5 +1,5 @@
-package sakao_client_crud;
-
+package sakao_common;
+//common with client and test
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,10 +10,7 @@ import java.nio.charset.StandardCharsets;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
 
-import sakao_common.Request;
-import sakao_common.Response;
-
-public class Client {
+public class JsonToSend {
 
 	private Socket clientSocket;
 	private OutputStreamWriter out;
@@ -28,11 +25,10 @@ public class Client {
 	private ObjectMapper mapper;
 
 
-	public Client(String path) throws IOException, JSONException {
+	public JsonToSend() throws IOException, JSONException {
 
 		this.startConnection(ip, port);
-		this.RequestToSend(path);
-		this.CloseConnection();
+		
 
 	}
 
@@ -65,7 +61,7 @@ public class Client {
 	}
 
 	public void CloseConnection() throws IOException {
-		System.out.println("waiting for updated disconnection");
+		System.out.println("waiting for disconnection");
 		out.close();
 		in.close();
 		clientSocket.close();
@@ -88,12 +84,12 @@ public class Client {
 		return chaine;
 	}
 
-	private void RequestToSend(String path) throws IOException {
+	public void RequestToSend(String path) throws IOException {
 
 		
 		Request request = new ObjectMapper().readValue(this.readFile(path), Request.class);
 		this.sendMessageToServer(request);
-
+		
 	}
 
 
