@@ -181,7 +181,7 @@ public class Crud_Controller {
 
 			while (i < list.size()) {
 				
-				System.out.println(list.get(i));
+				//System.out.println(list.get(i));
 				pstm.setInt(1, Integer.parseInt((list.get(i)))); // MaxnumberVeh
 				pstm.setInt(2, Integer.parseInt(list.get(i + 2))); // numberofvehicules
 				pstm.setInt(3, Integer.parseInt(list.get(i + 4)));// maxpolution

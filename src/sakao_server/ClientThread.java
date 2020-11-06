@@ -74,15 +74,13 @@ public class ClientThread extends Thread {
 			bollardObject = bollardService.GenerateAllBollards();
 			smartCityObject = smartCityServices.GenerateCity();
 
-			System.out.println("Objets generés :");
-			System.out.println("");
-			System.out.println(vehicleSensorObject);
-			System.out.println("");
-			System.out.println(bollardObject);
-			System.out.println("");
-			System.out.println(smartCityObject);
-			System.out.println("");
-			System.out.println("Fin objets generés");
+			/*
+			 * System.out.println("Objets generés :"); System.out.println("");
+			 * System.out.println(vehicleSensorObject); System.out.println("");
+			 * System.out.println(bollardObject); System.out.println("");
+			 * System.out.println(smartCityObject); System.out.println("");
+			 * System.out.println("Fin objets generés");
+			 */
 
 		} catch (Exception e) {
 
@@ -96,16 +94,18 @@ public class ClientThread extends Thread {
 //		vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
 //		smartCityObject = smartCityServices.GenerateCity();
 
-		System.out.println("Avant dans le check : " + vehicleSensorObject);
-		System.out.println("Avant dans le check : " + smartCityObject);
-		System.out.println("Avant dans le check : " + bollardObject);
+		/*
+		 * System.out.println("Avant dans le check : " + vehicleSensorObject);
+		 * System.out.println("Avant dans le check : " + smartCityObject);
+		 * System.out.println("Avant dans le check : " + bollardObject);
+		 */
 
 		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject); // in + incity - out)
-		
+
 		// vehicleSensorObject.clear();
 		// System.out.println(NbVehicleInCirculation);
 		double CurentPolution = smartCityObject.PoltutionPerVehicleInCirculation(vehicleSensorObject);
-		System.out.println(CurentPolution);
+		// System.out.println(CurentPolution);
 
 		smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
 		smartCityServices.updateCurrentPolution(CurentPolution);
@@ -135,10 +135,10 @@ public class ClientThread extends Thread {
 				System.out.println("Treshold Number of vehicles !!!");
 			}
 
-			/*if (smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
+			if (smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
 				System.out.println("Treshold Polution !!!");
 
-			}*/
+			}
 
 			System.out.println("Retractable bollards are raised");
 			System.out.println("Tramfrequency =  10/10");
@@ -158,15 +158,7 @@ public class ClientThread extends Thread {
 				smartCityServices.updateTramFrequency(6);
 				smartCityObject = smartCityServices.GenerateCity();
 
-				if (NbVehicleInCirculation < Maxminus20) {
-
-					System.out.println("Lower Number of vehicles");
-				}
-
-				if (CurentPolution < MaxPolutionmunus20) {
-
-					System.out.println("Lower Polution");
-				}
+				System.out.println("Lower Number of vehicles & Lower Polution");
 
 				System.out.println("Retractable bollards are lowered");
 				System.out.println("Tramfrequency =  6/10");
@@ -177,16 +169,16 @@ public class ClientThread extends Thread {
 					smartCityServices.updateTramFrequency(8);
 					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
 
-					if (NbVehicleInCirculation > Maxminus20-1) {
+					if (NbVehicleInCirculation > Maxminus20 - 1) {
 
 						System.out.println("Number of vehicule is decreasing in town");
 					}
 
-					if (CurentPolution > MaxPolutionmunus20-1) {
+					if (CurentPolution > MaxPolutionmunus20 - 1) {
 
 						System.out.println("Polution is decreasing in town");
 					}
-					
+
 					System.out.println("Retractable bollards are raised");
 					System.out.println("Tramfrequency =  8/10");
 				} else {
@@ -194,18 +186,16 @@ public class ClientThread extends Thread {
 					smartCityServices.updateTramFrequency(8);
 					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
 
-					
-					
-					if (NbVehicleInCirculation > Maxminus20-1) {
+					if (NbVehicleInCirculation > Maxminus20 - 1) {
 
 						System.out.println("Number of vehicule is increasing in town");
 					}
 
-					if (CurentPolution > MaxPolutionmunus20-1) {
+					if (CurentPolution > MaxPolutionmunus20 - 1) {
 
 						System.out.println("Polution is increasing in town");
 					}
-					
+
 					System.out.println("Retractable bollards are lowered");
 					System.out.println("Tramfrequency =  8/10");
 
@@ -355,7 +345,7 @@ public class ClientThread extends Thread {
 
 		case "Update":
 
-			System.out.println("Avant :" + vehicleSensorObject);
+			// System.out.println("Avant :" + vehicleSensorObject);
 			vehiclesSensorService.UpdateSensorVehicles(target, list, vehicleSensorObject);
 			vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
 			System.out.println("");
@@ -383,15 +373,20 @@ public class ClientThread extends Thread {
 
 		case "Update":
 
-			System.out.println("Avant :" + smartCityObject);
+		
 
 			smartCityServices.UpdateSmartCityVehicles(target, list, smartCityObject);
 			smartCityObject = smartCityServices.GenerateCity();
-			// System.out.println("Après :"+ smartCityObject);
+			
 
 			String outjsonStringUpdateSmart = mapper.writeValueAsString(response);
+			
+			
 			out.write(outjsonStringUpdateSmart + "\n");
+			
+		
 			out.flush();
+			
 			// System.out.println("");
 			System.out.println("SmartCity object Updated :");
 			System.out.println("");

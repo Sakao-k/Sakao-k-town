@@ -15,9 +15,9 @@ public class SmartCity {
 	private int maxPolution;
 	private int polutionLevel; // In the town
 
-	private final static double PolutionLightCommercialVehicle = 0.2;
-	private final static double PolutionCompactCar = 0.4;
-	private final static double PolutionHeavyGoodsVehicle = 0.8;
+	private final static double PolutionLightCommercialVehicle = 1;
+	private final static double PolutionCompactCar = 1.5;
+	private final static double PolutionHeavyGoodsVehicle = 2.5;
 
 	private int tramFrequency;
 

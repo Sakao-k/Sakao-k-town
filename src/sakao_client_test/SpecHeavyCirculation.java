@@ -11,8 +11,8 @@ public class SpecHeavyCirculation {
 		System.out.println("INITIALIZATION");
 		System.out.println("Vehicles in Circulation in the city: 200");
 		System.out.println("Vehicles MaxNumberThreshold : 500");
-		System.out.println("MaxPolution : 2000");
-		System.out.println("Polutionlevel : 500");
+		System.out.println("MaxPolution : 700");
+		System.out.println("Polutionlevel : 200");
 		System.out.println("SensorVehicule 1 (Input) = 0");
 		System.out.println("SensorVehicule 2 (Output) = 0");
 		System.out.println("SensorVehicule 3 (Input) = 0");
