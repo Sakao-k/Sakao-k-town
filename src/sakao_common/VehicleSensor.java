@@ -1,7 +1,10 @@
 package sakao_common;
 
-import java.sql.Date;;
+import java.sql.Date;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VehicleSensor {
 
 	private int idVehicleSensor;
@@ -45,12 +48,12 @@ public class VehicleSensor {
 				+ "\"sensorType\":\"" + this.getSensorType() + "\","
 
 				+ "\"NbOfLightCommercialVehicle\":\"" + this.getNbOfLightCommercialVehicle() + "\","
-				+ "\"NbOfCompactCar\":\"" + this.getNbOfCompactCar() + "\"," + "\"NbOfHeavyGoodsVehicle\":\""
-				+ this.getNbOfHeavyGoodsVehicle() + "\","
+				+ "\"NbOfCompactCar\":\"" + this.getNbOfCompactCar() + "\"," 
+				+ "\"NbOfHeavyGoodsVehicle\":\""+ this.getNbOfHeavyGoodsVehicle() + "\","
 
 				+ "\"ipAddress\":\"" + this.getIpAddress() + "\"," + "\"macAddress\":\"" + this.getMacAddress() + "\","
 
-				+ "\"isInstalled\":\"" + this.isInstalled + "\","
+				+ "\"isInstalled\":\"" + this.getisInstalled() + "\","
 
 				+ "\"idZone\":\"" + this.getIdZone() + "\"," + "\"idBollard\":\"" + this.getIdBollard() + "\"}";
 
@@ -122,7 +125,7 @@ public class VehicleSensor {
 		this.macAddress = macAddress;
 	}
 
-	public boolean isInstalled() {
+	public boolean getisInstalled() {
 		return isInstalled;
 	}
 

@@ -671,7 +671,7 @@ public class Crud_Controller {
 	public void addOnVehiclesSensor(String target, ArrayList<String> list) throws ClassNotFoundException {
 		try {
 			Connection con = DataSource.getConnection();
-			String req = "insert into " + target
+			String req = "insert into  vehiclesensor"
 					+ " (sensortype, ipaddress, macaddress, isinstalled, idzone, idbollard)\r\n" + " VALUES ";
 
 			int i = 2;
