@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
 
@@ -111,6 +113,16 @@ public class JsonToSend {
 		
 		Request request = new ObjectMapper().readValue(this.readFile(path), Request.class);
 		this.sendMessageToServer(request);
+		
+	}
+	
+	public Request requestParse (String path) throws JsonParseException, JsonMappingException, IOException {
+		
+		Request request = new ObjectMapper().readValue(this.readFile(path), Request.class);
+		
+		
+		
+		return request;
 		
 	}
 

@@ -100,8 +100,9 @@ public class AppStructure extends JFrame {
 		
 		ManageBollard m = new ManageBollard(appStructure);
 		ConfigureSensors s = new ConfigureSensors(appStructure);
+		Simulation sim = new Simulation(appStructure);
 		/*AirQuality a = new AirQuality(appStructure);
-		SeuilCalcul seuil = new SeuilCalcul(appStructure);
+		
 		CreateCity c = new CreateCity();*/
 		
 	
@@ -110,6 +111,7 @@ public class AppStructure extends JFrame {
 		//a.setVisible(false);
 	//	seuil.setVisible(false);
 		m.setVisible(false);
+		sim.setVisible(false);
 		
 		
 		JLabel image = new JLabel();
@@ -150,7 +152,7 @@ public class AppStructure extends JFrame {
 	//	panel_6.add(c);
 		panel_6.add(s);
 	//	panel_6.add(a);
-	//	panel_6.add(seuil);
+		panel_6.add(sim);
 		panel_6.add(m);
 		h.setVisible(true);
 		
@@ -168,7 +170,7 @@ public class AppStructure extends JFrame {
 
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(new Color(0, 128, 0));
-		panel_5.setBounds(0, 255, 188, 43);
+		panel_5.setBounds(0, 187, 188, 43);
 		panel_1.add(panel_5);
 		panel_5.setLayout(null);
 
@@ -179,9 +181,10 @@ public class AppStructure extends JFrame {
 			//	c.setVisible(false);
 				h.setVisible(false);
 			//	a.setVisible(false);
-			//	seuil.setVisible(false);
+				
 				m.setVisible(false);
 				s.setVisible(true);
+				sim.setVisible(false);
 			}
 		});
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -250,7 +253,7 @@ public class AppStructure extends JFrame {
 		//		c.setVisible(false);
 				s.setVisible(false);
 			//	a.setVisible(false);
-				//seuil.setVisible(false);
+				sim.setVisible(false);
 				m.setVisible(false);
 				h.setVisible(true);
 
@@ -275,18 +278,21 @@ public class AppStructure extends JFrame {
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(new Color(0, 128, 0));
-		panel_7.setBounds(10, 316, 178, 43);
+		panel_7.setBounds(0, 272, 188, 43);
 		panel_1.add(panel_7);
 		panel_7.setLayout(null);
 		
-		JLabel lblNewLabel_5 = new JLabel("    Air quality sensor");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblNewLabel_5 = new JLabel("    Simulation");
 		Image imgAir = new ImageIcon(this.getClass().getResource("/air.png")).getImage();
 		Image newimgAir = imgAir.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		lblNewLabel_5.setIcon(new ImageIcon(newimgAir));
 		lblNewLabel_5.setForeground(Color.WHITE);
 		lblNewLabel_5.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_5.setBounds(-11, 0, 172, 31);
+		lblNewLabel_5.setBounds(10, 0, 168, 37);
+		
+		
+		
+		
 		lblNewLabel_5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -296,7 +302,7 @@ public class AppStructure extends JFrame {
 					s.setVisible(false);
 					h.setVisible(false);
 					m.setVisible(false);
-			//		seuil.setVisible(false);
+					sim.setVisible(true);
 				//	a.setVisible(true);
 			
 			
@@ -304,12 +310,12 @@ public class AppStructure extends JFrame {
 
 			}
 		});
-		panel_7.add(lblNewLabel_5);
 		
+		panel_7.add(lblNewLabel_5);
 		JPanel panel_8 = new JPanel();
 		panel_8.setBackground(new Color(0, 128, 0));
 		panel_8.setForeground(new Color(0, 128, 0));
-		panel_8.setBounds(0, 370, 188, 37);
+		panel_8.setBounds(0, 231, 188, 43);
 		panel_1.add(panel_8);
 		panel_8.setLayout(null);
 		
