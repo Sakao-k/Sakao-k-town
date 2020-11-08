@@ -21,9 +21,10 @@ import org.json.JSONObject;
 
 import sakao_common.Request;
 import sakao_common.Response;
-
+import sakao_common.ResultTreshold;
 //import sakao_client_insert.TablesToBeInserted;
 import sakao_common.Bollard;
+import sakao_common.JsonToSend;
 import sakao_common.Request;
 import sakao_common.Response;
 import sakao_common.SmartCity;
@@ -51,6 +52,10 @@ public class ClientThread extends Thread {
 	private ArrayList<VehicleSensor> vehicleSensorObject;
 	private ArrayList<Bollard> bollardObject;
 	private SmartCity smartCityObject;
+	private ResultTreshold resultTreshold;
+	private ArrayList<String> retourCheck;
+	
+	
 
 	public ClientThread(Socket socket) throws ClassNotFoundException {
 		super("Client" + position);
@@ -58,6 +63,9 @@ public class ClientThread extends Thread {
 		this.clientSocket = socket;
 
 		// sensorService = new SensorsService();
+		
+		retourCheck = new ArrayList<String>();
+		resultTreshold = new ResultTreshold  ();
 
 		bollardService = new BollardService();
 		vehiclesSensorService = new VehiclesSensorService();
@@ -88,34 +96,46 @@ public class ClientThread extends Thread {
 
 	}
 
-	private void CheckVehiclesThreshold() throws ClassNotFoundException {
+	private ResultTreshold CheckVehiclesThreshold() throws ClassNotFoundException, IOException, JSONException {
 
 //		bollardObject = bollardService.GenerateAllBollards();
 //		vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
 //		smartCityObject = smartCityServices.GenerateCity();
 
-		/*
-		 * System.out.println("Avant dans le check : " + vehicleSensorObject);
-		 * System.out.println("Avant dans le check : " + smartCityObject);
-		 * System.out.println("Avant dans le check : " + bollardObject);
-		 */
+		
+		
+		
+		
 
 		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject); // in + incity - out)
-
-		// vehicleSensorObject.clear();
-		// System.out.println(NbVehicleInCirculation);
+		
+		
+		
 		double CurentPolution = smartCityObject.PoltutionPerVehicleInCirculation(vehicleSensorObject);
+		
 		// System.out.println(CurentPolution);
 
 		smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
 		smartCityServices.updateCurrentPolution(CurentPolution);
 
 		smartCityObject = smartCityServices.GenerateCity();
+		
+		
+		
 		System.out.println(vehicleSensorObject);
 		System.out.println(smartCityObject);
+		
+		
+		
 		/////////////////////////////////////////////////////////////////////////////////////////
 		System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
+		resultTreshold.setNbVehicleInCirculation(NbVehicleInCirculation);
+		
+		
 		System.out.println("CurentPolution = " + CurentPolution);
+		resultTreshold.setCurentPolution(CurentPolution);
+		
+		
 
 		int Max = smartCityObject.getMaxNumberVehicles();
 		int Maxminus20 = ((Max) - ((Max * 20) / 100)); // -20% of max
@@ -126,22 +146,39 @@ public class ClientThread extends Thread {
 		if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true
 				|| smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
 
+			
+			
 			bollardService.Updatetrue(bollardObject);
 			bollardObject = bollardService.GenerateAllBollards();
 
 			smartCityServices.updateTramFrequency(10);
 			smartCityObject = smartCityServices.GenerateCity();
+			
+			
+			
 			if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true) {
+				
+				
 				System.out.println("Treshold Number of vehicles !!!");
+				
+				resultTreshold.setTresholdResult("Treshold Number of vehicles !!!");
 			}
 
 			if (smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
 				System.out.println("Treshold Polution !!!");
+				
+				resultTreshold.setTresholdResult("Treshold Polution !!!");
 
 			}
 
 			System.out.println("Retractable bollards are raised");
+			
+			resultTreshold.setBollardStateResult(true);
+			
 			System.out.println("Tramfrequency =  10/10");
+			
+			
+			resultTreshold.setTramFrequencyResult(10);
 
 		} /*
 			 * else if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation)
@@ -157,11 +194,24 @@ public class ClientThread extends Thread {
 
 				smartCityServices.updateTramFrequency(6);
 				smartCityObject = smartCityServices.GenerateCity();
-
+				
+				
+				//Treshold
 				System.out.println("Lower Number of vehicles & Lower Polution");
-
+				
+				resultTreshold.setTresholdResult("Lower Number of vehicles & Lower Polution");
+				
+				//bollard
 				System.out.println("Retractable bollards are lowered");
+				
+				resultTreshold.setBollardStateResult(false);
+				
+				//Tram freq
 				System.out.println("Tramfrequency =  6/10");
+				
+				resultTreshold.setTramFrequencyResult(6);
+				
+				
 			} else {
 
 				if (bollardObject.get(1).getIsBollardState() == true) {
@@ -172,15 +222,25 @@ public class ClientThread extends Thread {
 					if (NbVehicleInCirculation > Maxminus20 - 1) {
 
 						System.out.println("Number of vehicule is decreasing in town");
+						
+						resultTreshold.setTresholdResult("Number of vehicule is decreasing in town");
 					}
 
 					if (CurentPolution > MaxPolutionmunus20 - 1) {
 
 						System.out.println("Polution is decreasing in town");
+						
+						resultTreshold.setTresholdResult("Polution is decreasing in town");
 					}
 
 					System.out.println("Retractable bollards are raised");
+					
+					resultTreshold.setBollardStateResult(true);
+					
+					
 					System.out.println("Tramfrequency =  8/10");
+					resultTreshold.setTramFrequencyResult(8);
+					
 				} else {
 
 					smartCityServices.updateTramFrequency(8);
@@ -189,21 +249,47 @@ public class ClientThread extends Thread {
 					if (NbVehicleInCirculation > Maxminus20 - 1) {
 
 						System.out.println("Number of vehicule is increasing in town");
+						resultTreshold.setTresholdResult("Number of vehicule is increasing in town");
+						
 					}
 
 					if (CurentPolution > MaxPolutionmunus20 - 1) {
 
 						System.out.println("Polution is increasing in town");
+						resultTreshold.setTresholdResult("Polution is increasing in town");
 					}
 
 					System.out.println("Retractable bollards are lowered");
+					resultTreshold.setBollardStateResult(false);
+					
 					System.out.println("Tramfrequency =  8/10");
+					resultTreshold.setTramFrequencyResult(8);
 
 				}
 
 			}
 		}
+		
+		this.initVehicles();
+		return resultTreshold;
+		
+		
+		
 
+	}
+
+	private void initVehicles() throws IOException, JSONException, ClassNotFoundException {
+		
+		JsonToSend j = new JsonToSend();
+		Request req = j.requestParse("file-for-test/InitVehiculesSensor.json");
+		ArrayList<String> listR = req.getList();
+		vehiclesSensorService.UpdateSensorVehicles("vehiclesensor", listR, vehicleSensorObject);
+		vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
+		
+		
+		
+		
+		
 	}
 
 	public void CrudBollard(String operation_type, String target, ArrayList<String> list) throws ClassNotFoundException,
@@ -301,7 +387,7 @@ public class ClientThread extends Thread {
 	}
 
 	public void CrudVehiclesSensor(String operation_type, String target, ArrayList<String> list)
-			throws ClassNotFoundException, JsonGenerationException, JsonMappingException, IOException {
+			throws ClassNotFoundException, JsonGenerationException, JsonMappingException, IOException, JSONException {
 
 		switch (operation_type) {
 
@@ -355,12 +441,17 @@ public class ClientThread extends Thread {
 			System.out.println("");
 			System.out.println("Fin object updated");
 			System.out.println("");
-			this.CheckVehiclesThreshold();
+			resultTreshold = this.CheckVehiclesThreshold();
 			String outjsonStringUpdate = mapper.writeValueAsString(response);
 			out.write(outjsonStringUpdate + "\n");
 			out.flush();
 			System.out.println("Update Vehicle Sensor done for " + this.getName());
 			System.out.println("********************");
+			
+			
+			
+			
+			
 			break;
 		}
 
@@ -402,6 +493,29 @@ public class ClientThread extends Thread {
 
 	}
 
+	private void CrudCheck(String operation_type, String target, ArrayList<String> list)
+			throws ClassNotFoundException, JsonGenerationException, JsonMappingException, IOException, JSONException {
+
+		switch (operation_type) {
+
+		case "SELECT_ALL":
+			
+			resultTreshold = this.CheckVehiclesThreshold();
+			retourCheck.add(resultTreshold.toString());
+			response.setList(retourCheck);
+			String outjsonStringSelectChecl = mapper.writeValueAsString(response);
+			out.write(outjsonStringSelectChecl + "\n");
+			out.flush();
+			System.out.println("Display Check done to " + this.getName());
+			System.out.println("********************");
+			vehicleSensorObject.clear();
+		
+
+			
+			break;
+		}
+
+	}
 	public void CrudZone(String operation_type, String target, ArrayList<String> list)
 			throws ClassNotFoundException, JsonGenerationException, JsonMappingException, IOException {
 
@@ -493,10 +607,19 @@ public class ClientThread extends Thread {
 			}
 
 			break;
+			
+		case "check":
+			try {
+				this.CrudCheck(this.request.getOperation_type(), this.request.getTarget(), this.request.getList());
+			} catch (Exception e) {
+			}
+
+			break;
 
 		}
 
 	}
+
 
 	public void run() {
 		try {
