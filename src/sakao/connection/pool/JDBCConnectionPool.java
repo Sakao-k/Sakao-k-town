@@ -60,7 +60,7 @@ public class JDBCConnectionPool {
 		if (JDBCConnectionPool.listConnectionavailable.size() != 0) {
 
 			b = true;
-			this.notifyAll();
+		//	this.notifyAll();
 
 		} else {
 
@@ -83,8 +83,8 @@ public class JDBCConnectionPool {
 
 		connection = listConnectionavailable.get(0);
 		listConnectionavailable.remove(0);
-		b = false;
-		this.notifyAll();
+		//b = false;
+		//this.notifyAll();
 
 		return connection;
 	}

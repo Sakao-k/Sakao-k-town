@@ -7,7 +7,7 @@ import java.util.Properties;
 public final class ConnectionFileReader {
 
 	private Properties p;
-	private final static int MAX_CONNECTIONS = 3;
+	private final static int MAX_CONNECTIONS = 11;
 
 
 	public ConnectionFileReader() {
@@ -18,7 +18,7 @@ public final class ConnectionFileReader {
 	public void Read() {
 		InputStream fis;
 		try {
-			fis = getClass().getClassLoader().getResourceAsStream("sakao_connection_pool/ConnectionFile.xml");
+			fis = getClass().getClassLoader().getResourceAsStream("sakao/connection/pool/ConnectionFile.xml");
 			p.loadFromXML(fis);
 		} catch (IOException e) {
 			e.printStackTrace();

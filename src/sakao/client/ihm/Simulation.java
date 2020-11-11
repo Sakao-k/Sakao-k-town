@@ -44,6 +44,9 @@ public class Simulation extends JPanel {
 	private String message;
 
 	private JsonToSend app;
+	private ArrayList<String> al;
+	private Request request;
+	private int i = 0;
 
 	public Simulation(JsonToSend appStructure) throws IOException, JSONException {
 
@@ -381,11 +384,25 @@ public class Simulation extends JPanel {
 		});
 
 		app = new JsonToSend();
+
+		request = new Request("SELECT_ALL", "check");
+
 		btnCurentSituation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				Request request = new Request("SELECT_ALL", "check");
 				try {
+
+					i++;
+
+					al = app.sendMessageToServer(request);
+					message = i + "   " + al + "   ";
+					al.clear();
+
+					JsonToSend app = new JsonToSend();
+
+
+					Request request = new Request("SELECT_ALL", "check");
+
 
 					ArrayList<String> al = app.sendMessageToServer(request);
 
@@ -394,17 +411,31 @@ public class Simulation extends JPanel {
 					System.out.println(s);
 
 					ResultTreshold req1 = new ObjectMapper().readValue(s, ResultTreshold.class);
+					message = "NbVehicleInCirculation =" + req1.getNbVehicleInCirculation() + "\n";
+					message += "CurentPolution =" + req1.getCurentPolution() + "\n";
+					message += "TresholdResult =" + req1.getTresholdResult() + "\n";
+					message += "bollardStateResult =" + req1.getisBollardStateResult() + "\n";
+					message += "tramFrequencyResult =" + req1.getTramFrequencyResult() + "\n";
 
-					message = "NbVehicleInCirculation =" + req1.getNbVehicleInCirculation()+ "\n";
-					message += "CurentPolution =" + req1.getCurentPolution()+ "\n";
-					message += "TresholdResult =" + req1.getTresholdResult()+ "\n";
-					message += "bollardStateResult =" + req1.getisBollardStateResult()+ "\n";
-					message += "tramFrequencyResult =" + req1.getTramFrequencyResult()+ "\n";
+					// System.out.println("okkk");
 					textArea.setText(message);
+					// }
+					/*
+					 * String s = al.get(0) + "\n";
+					 * 
+					 * System.out.println(s);
+					 * 
+					 * ResultTreshold req1 = new ObjectMapper().readValue(s, ResultTreshold.class);
+					 * 
+					 * message = "NbVehicleInCirculation =" + req1.getNbVehicleInCirculation() +
+					 * "\n"; message += "CurentPolution =" + req1.getCurentPolution() + "\n";
+					 * message += "TresholdResult =" + req1.getTresholdResult() + "\n"; message +=
+					 * "bollardStateResult =" + req1.getisBollardStateResult() + "\n"; message +=
+					 * "tramFrequencyResult =" + req1.getTramFrequencyResult() + "\n"; //req1 =
+					 * null; //message = null;
+					 */
 
-					
-
-				} catch (IOException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
