@@ -50,6 +50,7 @@ public class ClientThread extends Thread {
 	private SmartCity smartCityObject;
 	private ResultTreshold resultTreshold;
 	private ArrayList<String> retourCheck;
+	private ArrayList<String> reponseresult;
 
 	public ClientThread(Socket socket) throws ClassNotFoundException {
 		super("Client" + position);
@@ -60,6 +61,7 @@ public class ClientThread extends Thread {
 
 		retourCheck = new ArrayList<String>();
 		resultTreshold = new ResultTreshold();
+		reponseresult = new ArrayList<String>();
 
 		bollardService = new BollardService();
 		vehiclesSensorService = new VehiclesSensorService();
@@ -95,56 +97,59 @@ public class ClientThread extends Thread {
 //		bollardObject = bollardService.GenerateAllBollards();
 //		vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
 //		smartCityObject = smartCityServices.GenerateCity();
-
+		String m = "";
 		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject); // in + incity - out)
 
 		double CurentPolution = smartCityObject.PoltutionPerVehicleInCirculation(vehicleSensorObject);
 
-		// System.out.println(CurentPolution);
+		if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()
+				|| NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
 
-		smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
-		smartCityServices.updateCurrentPolution(CurentPolution);
+			if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
+				
+				
+				NbVehicleInCirculation = smartCityObject.getMaxNumberVehicles();
 
-		smartCityObject = smartCityServices.GenerateCity();
+				smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
+				smartCityServices.updateCurrentPolution(CurentPolution);
 
-		System.out.println(vehicleSensorObject);
-		System.out.println(smartCityObject);
+				smartCityObject = smartCityServices.GenerateCity();
 
-		/////////////////////////////////////////////////////////////////////////////////////////
-		System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
-		resultTreshold.setNbVehicleInCirculation(NbVehicleInCirculation);
+				resultTreshold.setNbVehicleInCirculation(NbVehicleInCirculation);
 
-		System.out.println("CurentPolution = " + CurentPolution);
-		resultTreshold.setCurentPolution(CurentPolution);
+				m = "Treshold Number of vehicles !!!";
+				resultTreshold.setTresholdResult(m);
 
-		int Max = smartCityObject.getMaxNumberVehicles();
-		int Maxminus20 = ((Max) - ((Max * 20) / 100)); // -20% of max
+				resultTreshold.setCurentPolution(CurentPolution);
 
-		double MaxPolution = smartCityObject.getMaxPolution();
-		double MaxPolutionmunus20 = ((MaxPolution) - ((MaxPolution * 20) / 100));
+			}
+			
+			if (CurentPolution >= smartCityObject.getMaxPolution()) {
+				
+				
+				CurentPolution = smartCityObject.getMaxPolution();
 
-		if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true
-				|| smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
+				smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
+				smartCityServices.updateCurrentPolution(CurentPolution);
+
+				smartCityObject = smartCityServices.GenerateCity();
+
+				resultTreshold.setNbVehicleInCirculation(NbVehicleInCirculation);
+				
+				m += "   Treshold Polution !!!";
+
+				resultTreshold.setTresholdResult(m);
+
+				resultTreshold.setCurentPolution(CurentPolution);
+
+			}
 
 			bollardService.Updatetrue(bollardObject);
 			bollardObject = bollardService.GenerateAllBollards();
 
 			smartCityServices.updateTramFrequency(10);
 			smartCityObject = smartCityServices.GenerateCity();
-
-			if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true) {
-
-				System.out.println("Treshold Number of vehicles !!!");
-
-				resultTreshold.setTresholdResult("Treshold Number of vehicles !!!");
-			}
-
-			if (smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
-				System.out.println("Treshold Polution !!!");
-
-				resultTreshold.setTresholdResult("Treshold Polution !!!");
-
-			}
+			
 
 			System.out.println("Retractable bollards are raised");
 
@@ -154,93 +159,150 @@ public class ClientThread extends Thread {
 
 			resultTreshold.setTramFrequencyResult(10);
 
-		} /*
-			 * else if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation)
-			 * == false && bollardObject.get(0).getIsInstalled() == true) {
-			 */
+		} else {
 
-		else {
+			smartCityServices.updateNumberinCirculation(NbVehicleInCirculation);
+			smartCityServices.updateCurrentPolution(CurentPolution);
 
-			if (NbVehicleInCirculation < Maxminus20 && CurentPolution < MaxPolutionmunus20) {
+			smartCityObject = smartCityServices.GenerateCity();
 
-				bollardService.Updatefalse(bollardObject);
+			System.out.println(vehicleSensorObject);
+			System.out.println(smartCityObject);
+
+			/////////////////////////////////////////////////////////////////////////////////////////
+			System.out.println("Seuil : " + smartCityObject.getMaxNumberVehicles());
+			System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
+			resultTreshold.setNbVehicleInCirculation(NbVehicleInCirculation);
+
+			System.out.println("CurentPolution = " + CurentPolution);
+			resultTreshold.setCurentPolution(CurentPolution);
+
+			int Max = smartCityObject.getMaxNumberVehicles();
+			int Maxminus20 = ((Max) - ((Max * 20) / 100)); // -20% of max
+
+			double MaxPolution = smartCityObject.getMaxPolution();
+			double MaxPolutionmunus20 = ((MaxPolution) - ((MaxPolution * 20) / 100));
+
+			if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true
+					|| smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
+
+				bollardService.Updatetrue(bollardObject);
 				bollardObject = bollardService.GenerateAllBollards();
 
-				smartCityServices.updateTramFrequency(6);
+				smartCityServices.updateTramFrequency(10);
 				smartCityObject = smartCityServices.GenerateCity();
 
-				// Treshold
-				System.out.println("Lower Number of vehicles & Lower Polution");
+				if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation) == true) {
 
-				resultTreshold.setTresholdResult("Lower Number of vehicles & Lower Polution");
+					System.out.println("Treshold Number of vehicles !!!");
 
-				// bollard
-				System.out.println("Retractable bollards are lowered");
+					resultTreshold.setTresholdResult("Treshold Number of vehicles !!!");
+				}
 
-				resultTreshold.setBollardStateResult(false);
+				if (smartCityObject.CheckThresholdMaxPolution(CurentPolution) == true) {
+					System.out.println("Treshold Polution !!!");
 
-				// Tram freq
-				System.out.println("Tramfrequency =  6/10");
-
-				resultTreshold.setTramFrequencyResult(6);
-
-			} else {
-
-				if (bollardObject.get(1).getIsBollardState() == true) {
-
-					smartCityServices.updateTramFrequency(8);
-					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
-
-					if (NbVehicleInCirculation > Maxminus20 - 1) {
-
-						System.out.println("Number of vehicule is decreasing in town");
-
-						resultTreshold.setTresholdResult("Number of vehicule is decreasing in town");
-					}
-
-					if (CurentPolution > MaxPolutionmunus20 - 1) {
-
-						System.out.println("Polution is decreasing in town");
-
-						resultTreshold.setTresholdResult("Polution is decreasing in town");
-					}
-
-					System.out.println("Retractable bollards are raised");
-
-					resultTreshold.setBollardStateResult(true);
-
-					System.out.println("Tramfrequency =  8/10");
-					resultTreshold.setTramFrequencyResult(8);
-
-				} else {
-
-					smartCityServices.updateTramFrequency(8);
-					smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
-
-					if (NbVehicleInCirculation > Maxminus20 - 1) {
-
-						System.out.println("Number of vehicule is increasing in town");
-						resultTreshold.setTresholdResult("Number of vehicule is increasing in town");
-
-					}
-
-					if (CurentPolution > MaxPolutionmunus20 - 1) {
-
-						System.out.println("Polution is increasing in town");
-						resultTreshold.setTresholdResult("Polution is increasing in town");
-					}
-
-					System.out.println("Retractable bollards are lowered");
-					resultTreshold.setBollardStateResult(false);
-
-					System.out.println("Tramfrequency =  8/10");
-					resultTreshold.setTramFrequencyResult(8);
+					resultTreshold.setTresholdResult("Treshold Polution !!!");
 
 				}
 
+				System.out.println("Retractable bollards are raised");
+
+				resultTreshold.setBollardStateResult(true);
+
+				System.out.println("Tramfrequency =  10/10");
+
+				resultTreshold.setTramFrequencyResult(10);
+
+			} /*
+				 * else if (smartCityObject.CheckThresholdNbMaxVehicles(NbVehicleInCirculation)
+				 * == false && bollardObject.get(0).getIsInstalled() == true) {
+				 */
+
+			else {
+
+				if (NbVehicleInCirculation < Maxminus20 && CurentPolution < MaxPolutionmunus20) {
+
+					bollardService.Updatefalse(bollardObject);
+					bollardObject = bollardService.GenerateAllBollards();
+
+					smartCityServices.updateTramFrequency(6);
+					smartCityObject = smartCityServices.GenerateCity();
+
+					// Treshold
+					System.out.println("Lower Number of vehicles & Lower Polution");
+
+					resultTreshold.setTresholdResult("Lower Number of vehicles & Lower Polution");
+
+					// bollard
+					System.out.println("Retractable bollards are lowered");
+
+					resultTreshold.setBollardStateResult(false);
+
+					// Tram freq
+					System.out.println("Tramfrequency =  6/10");
+
+					resultTreshold.setTramFrequencyResult(6);
+
+				} else {
+
+					if (bollardObject.get(1).getIsBollardState() == true) {
+
+						smartCityServices.updateTramFrequency(8);
+						smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
+
+						if (NbVehicleInCirculation > Maxminus20 - 1) {
+
+							System.out.println("Number of vehicule is decreasing in town");
+
+							resultTreshold.setTresholdResult("Number of vehicule is decreasing in town");
+						}
+
+						if (CurentPolution > MaxPolutionmunus20 - 1) {
+
+							System.out.println("Polution is decreasing in town");
+
+							resultTreshold.setTresholdResult("Polution is decreasing in town");
+						}
+
+						System.out.println("Retractable bollards are raised");
+
+						resultTreshold.setBollardStateResult(true);
+
+						System.out.println("Tramfrequency =  8/10");
+						resultTreshold.setTramFrequencyResult(8);
+
+					} else {
+
+						smartCityServices.updateTramFrequency(8);
+						smartCityObject = smartCityServices.GenerateCity(); // Faire liste des bollard
+
+						if (NbVehicleInCirculation > Maxminus20 - 1) {
+
+							System.out.println("Number of vehicule is increasing in town");
+							resultTreshold.setTresholdResult("Number of vehicule is increasing in town");
+
+						}
+
+						if (CurentPolution > MaxPolutionmunus20 - 1) {
+
+							System.out.println("Polution is increasing in town");
+							resultTreshold.setTresholdResult("Polution is increasing in town");
+						}
+
+						System.out.println("Retractable bollards are lowered");
+						resultTreshold.setBollardStateResult(false);
+
+						System.out.println("Tramfrequency =  8/10");
+						resultTreshold.setTramFrequencyResult(8);
+
+					}
+
+				}
 			}
 		}
 
+		System.out.println("RESULT TRESHOLD  : " + resultTreshold.toString());
 		// this.initVehicles();
 		return resultTreshold;
 
@@ -406,9 +468,13 @@ public class ClientThread extends Thread {
 			System.out.println("Fin object updated");
 			System.out.println("");
 			resultTreshold = this.CheckVehiclesThreshold();
+			reponseresult.add(resultTreshold.toString());
+			response.setList(reponseresult);
+			// response
 			String outjsonStringUpdate = mapper.writeValueAsString(response);
 			out.write(outjsonStringUpdate + "\n");
 			out.flush();
+			reponseresult.clear();
 			System.out.println("Update Vehicle Sensor done for " + this.getName());
 			System.out.println("********************");
 
@@ -421,6 +487,15 @@ public class ClientThread extends Thread {
 			throws ClassNotFoundException, JsonGenerationException, JsonMappingException, IOException {
 
 		switch (operation_type) {
+
+		case "SELECT_ALL":
+			// response.setList(smartCityServices.showCity());
+			String outjsonStringSelectAllSmart = mapper.writeValueAsString(response);
+			out.write(outjsonStringSelectAllSmart + "\n");
+			out.flush();
+			System.out.println("Display done to " + this.getName());
+			System.out.println("********************");
+			break;
 
 		case "Update":
 

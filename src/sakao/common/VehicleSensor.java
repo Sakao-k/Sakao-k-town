@@ -43,26 +43,26 @@ public class VehicleSensor {
 	}
 
 	public String toString() {
-		return "{\"idVehicleSensor\":\"" + this.idVehicleSensor + "\","
+		return "{\"idVehicleSensor\":" + this.idVehicleSensor + ","
 
-				+ "\"sensorType\":\"" + this.getSensorType() + "\","
+				+ "\"sensorType\":\"" + this.getSensorType() + ","
 
-				+ "\"NbOfLightCommercialVehicle\":\"" + this.getNbOfLightCommercialVehicle() + "\","
-				+ "\"NbOfCompactCar\":\"" + this.getNbOfCompactCar() + "\"," 
-				+ "\"NbOfHeavyGoodsVehicle\":\""+ this.getNbOfHeavyGoodsVehicle() + "\","
+				+ "\"NbOfLightCommercialVehicle\":" + this.getNbOfLightCommercialVehicle() + ","
+				+ "\"NbOfCompactCar\":" + this.getNbOfCompactCar() + "\"," 
+				+ "\"NbOfHeavyGoodsVehicle\":"+ this.getNbOfHeavyGoodsVehicle() + ","
 
-				+ "\"ipAddress\":\"" + this.getIpAddress() + "\"," + "\"macAddress\":\"" + this.getMacAddress() + "\","
+				+ "\"ipAddress\":" + this.getIpAddress() + "\"," + "\"macAddress\":\"" + this.getMacAddress() + ","
 
-				+ "\"isInstalled\":\"" + this.getisInstalled() + "\","
+				+ "\"isInstalled\":" + this.getisInstalled() + ","
 
-				+ "\"idZone\":\"" + this.getIdZone() + "\"," + "\"idBollard\":\"" + this.getIdBollard() + "\"}";
+				+ "\"idZone\":" + this.getIdZone() + "," + "\"idBollard\":" + this.getIdBollard() + "}";
 
 	}
 
 	
 	
 	public int getIdVehicleSensor() {
-		return idVehicleSensor;
+		return this.idVehicleSensor;
 	}
 
 	
@@ -78,7 +78,7 @@ public class VehicleSensor {
 	}
 
 	public String getSensorType() {
-		return sensorType;
+		return this.sensorType;
 	}
 
 	public void setSensorType(String sensorType) {
@@ -86,19 +86,19 @@ public class VehicleSensor {
 	}
 
 	public int getNbOfLightCommercialVehicle() {
-		return NbOfLightCommercialVehicle;
+		return this.NbOfLightCommercialVehicle;
 	}
 
 	public void setNbOfLightCommercialVehicle(int nbOfLightCommercialVehicle) {
-		NbOfLightCommercialVehicle = nbOfLightCommercialVehicle;
+		this.NbOfLightCommercialVehicle = nbOfLightCommercialVehicle;
 	}
 
 	public int getNbOfCompactCar() {
-		return NbOfCompactCar;
+		return this.NbOfCompactCar;
 	}
 
 	public void setNbOfCompactCar(int nbOfCompactCar) {
-		NbOfCompactCar = nbOfCompactCar;
+		this.NbOfCompactCar = nbOfCompactCar;
 	}
 
 	public int getNbOfHeavyGoodsVehicle() {
@@ -106,11 +106,11 @@ public class VehicleSensor {
 	}
 
 	public void setNbOfHeavyGoodsVehicle(int nbOfHeavyGoodsVehicle) {
-		NbOfHeavyGoodsVehicle = nbOfHeavyGoodsVehicle;
+		this.NbOfHeavyGoodsVehicle = nbOfHeavyGoodsVehicle;
 	}
 
 	public String getIpAddress() {
-		return ipAddress;
+		return this.ipAddress;
 	}
 
 	public void setIpAddress(String ipAddress) {
@@ -118,7 +118,7 @@ public class VehicleSensor {
 	}
 
 	public String getMacAddress() {
-		return macAddress;
+		return this.macAddress;
 	}
 
 	public void setMacAddress(String macAddress) {
@@ -126,7 +126,7 @@ public class VehicleSensor {
 	}
 
 	public boolean getisInstalled() {
-		return isInstalled;
+		return this.isInstalled;
 	}
 
 	public void setInstalled(boolean isInstalled) {
@@ -134,7 +134,7 @@ public class VehicleSensor {
 	}
 
 	public int getIdZone() {
-		return idZone;
+		return this.idZone;
 	}
 
 	public void setIdZone(int idZone) {
@@ -142,7 +142,7 @@ public class VehicleSensor {
 	}
 
 	public int getIdBollard() {
-		return idBollard;
+		return this.idBollard;
 	}
 
 	public void setIdBollard(int idBollard) {

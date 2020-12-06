@@ -75,11 +75,11 @@ public class Bollard {
 	}
 
 	public String toString() {
-		return "{\"idBollard\":\"" + this.getIdBollard() + "\"," 
-				+ "\"bollardState\":\"" + this.getIsBollardState() + "\"," 
-				+ "\"idZone\":\"" + this.getIdZone() + "\","
-				+ "\"isInstalled\":\"" + this.getIsInstalled()
-				+ "\"," + "\"ipaddress\":\"" + this.getIpaddress()
+		return "{\"idBollard\":" + this.getIdBollard() + "," 
+				+ "\"bollardState\":" + this.getIsBollardState() + "," 
+				+ "\"idZone\":" + this.getIdZone() + ","
+				+ "\"isInstalled\":" + this.getIsInstalled()
+				+ "," + "\"ipaddress\":\"" + this.getIpaddress()
 				+ "\"," + "\"macaddress\":\"" + this.getMacaddress()
 				+ "\"}";
 	}

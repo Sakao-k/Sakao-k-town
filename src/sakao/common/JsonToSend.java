@@ -21,9 +21,10 @@ public class JsonToSend {
 	private Response response = new Response();
 
 	private final static int port = 3030;
-	private final static String ip = "172.31.249.133";
+	private final static String ip = "localhost";
 
 	private final static String SELECT_ALL = "SELECT_ALL";
+	private final static String Update = "Update";
 
 	private ObjectMapper mapper;
 
@@ -73,9 +74,9 @@ public class JsonToSend {
 		out.write(outjsonString + "\n");
 		out.flush();
 		String injsonString = in.readLine();
-		System.out.println(injsonString);
+		//System.out.println(injsonString);
 		response = mapper.readValue(injsonString, Response.class);
-		if (request.getOperation_type().equals(SELECT_ALL)) {
+		if (request.getOperation_type().equals(SELECT_ALL)||request.getOperation_type().equals(Update)) {
 			System.out.println("Response");
 			System.out.println(injsonString);
 		}

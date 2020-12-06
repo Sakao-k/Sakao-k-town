@@ -43,17 +43,17 @@ public class SmartCity {
 	}
 
 	
-	  public String toString() { return "{\"id\":\"" + this.id + "\"," +
-	  "\"name\":\"" + this.name + "\"," + "\"heightkm\":\"" + this.getHeightkm() +
-	  "\"," + "\"widthkm\":\"" + this.getWidthkm() + "\"," +
-	  
-	  "\"maxnumberofvehicles\":\"" + this.getMaxNumberVehicles() + "\"," +
-	  "\"numbervehicles\":\"" + this.getNumberVehicles() + "\"," +
-	  
-	  "\"maxPolution\":\"" + this.getMaxPolution() + "\"," + "\"polutionLevel\":\""
-	  + this.getPolutionLevel() + "\"," +
-	  
-	  "\"tramfrequency\":\"" + this.getTramFrequency() + "\"}";
+	  public String toString() {
+		  return "{\"id\":" + this.id + "," 
+	  +"\"name\":\"" + this.name + "\"," 
+	  + "\"heightkm\":" + this.getHeightkm() +"," 
+	  + "\"widthkm\":" + this.getWidthkm() + ","
+	  + "\"maxNumberVehicles\":" + this.getMaxNumberVehicles() + "," 
+	  + "\"numberVehicles\":"+ this.getNumberVehicles() + ","
+	  +"\"maxPolution\":" + this.getMaxPolution() + "," 
+	  + "\"polutionLevel\":"+ this.getPolutionLevel() + ","
+	  +"\"tramFrequency\":" + this.getTramFrequency() 
+	  + "}";
 	  
 	  }
 	 
@@ -66,7 +66,7 @@ public class SmartCity {
 	}*/
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
@@ -90,7 +90,7 @@ public class SmartCity {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -98,31 +98,31 @@ public class SmartCity {
 	}
 
 	public int getNumberVehicles() {
-		return numberVehicles;
+		return this.numberVehicles;
 	}
 
 	public void setNumberVehicles(int numberVehicles) {
-		numberVehicles = numberVehicles;
+		this.numberVehicles = numberVehicles;
 	}
 
 	public int getMaxNumberVehicles() {
-		return maxNumberVehicles;
+		return this.maxNumberVehicles;
 	}
 
 	public void setMaxNumberVehicles(int maxNumberVehicles) {
-		maxNumberVehicles = maxNumberVehicles;
+		this.maxNumberVehicles = maxNumberVehicles;
 	}
 
 	public int getTramFrequency() {
-		return tramFrequency;
+		return this.tramFrequency;
 	}
 
 	public void setTramFrequency(int tramFrequency) {
-		tramFrequency = tramFrequency;
+		this.tramFrequency = tramFrequency;
 	}
 
 	public int getMaxPolution() {
-		return maxPolution;
+		return this.maxPolution;
 	}
 
 	public void setMaxPolution(int maxPolution) {
@@ -130,7 +130,7 @@ public class SmartCity {
 	}
 
 	public double getPolutionLevel() {
-		return polutionLevel;
+		return this.polutionLevel;
 	}
 
 	public void setPolutionLevel(double curentPolution) {
