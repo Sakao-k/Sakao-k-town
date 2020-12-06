@@ -27,6 +27,11 @@ import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
+
+
 public class Simulation extends JPanel {
 	private JTextField textField_TresholdMaxNumberOfVehicles;
 	private JTextField textField_NbVehiclesInTown;
@@ -170,12 +175,19 @@ public class Simulation extends JPanel {
 		btnCurentSituation.setBackground(new Color(30, 144, 255));
 		btnCurentSituation.setBounds(59, 289, 132, 21);
 		panel.add(btnCurentSituation);
-
 		JTextArea textArea = new JTextArea();
-		textArea.setBackground(UIManager.getColor("Button.background"));
-		textArea.setEditable(false);
-		textArea.setBounds(246, 246, 425, 107);
-		panel.add(textArea);
+		
+		textArea.setBackground(Color.WHITE);
+		textArea.setBounds(300, 252, 337, 106);
+		//panel.add(textArea);
+		
+		JScrollPane sp = new JScrollPane(textArea,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		sp.setLocation(223, 245);
+		sp.setSize(420, 125);
+		panel.add(sp);
+		
+				;
+		
 
 		message = "";
 
@@ -294,13 +306,14 @@ public class Simulation extends JPanel {
 						message += "Tram Frequency = " + req1.getTramFrequency() + "/10" + "\n";
 
 						textArea.setText(message);
+						
 
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
-					/*
+					/*	
 					 * if (smart == null) {
 					 * 
 					 * smart = new SmartCity(1, "name", 1000, 1000, TresholdMaxNumberOfVehicles,
@@ -406,9 +419,10 @@ public class Simulation extends JPanel {
 							if (nboflightcommercialvehicle > 0) {
 
 								for (int i = 0; i < nboflightcommercialvehicle; i++) {
-									//message += i + " " + "\n";
+									message += i + " " + "\n";
 									//textArea.setText(message);
 									app.RequestToSend("file-for-ihm/addCommercial.json");
+									textArea.setText(message);
 									
 								}
 
@@ -461,10 +475,10 @@ public class Simulation extends JPanel {
 							if (nbofcompactcar > 0) {
 
 								for (int i = 0; i < nbofcompactcar; i++) {
-									//message += i + " " + "\n";
-									//textArea.setText(message);
-									app.RequestToSend("file-for-ihm/removeCompact.json");
+									message += i + " " + "\n";
 									
+									app.RequestToSend("file-for-ihm/removeCompact.json");
+									textArea.setText(message);
 								}
 
 							}
