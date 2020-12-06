@@ -28,6 +28,10 @@ public class smartCityServices {
 		}
 		return b;
 	}
+	
+	public ArrayList<String> showCity() {
+		return controller.showCity();
+	}
 
 	public void updateNumberinCirculation(int c) {
 

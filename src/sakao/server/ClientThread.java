@@ -99,7 +99,8 @@ public class ClientThread extends Thread {
 //		smartCityObject = smartCityServices.GenerateCity();
 		String m = "";
 		int NbVehicleInCirculation = smartCityObject.VehicleInCirculation(vehicleSensorObject); // in + incity - out)
-
+		
+		System.out.println("NUMBER AU DEPART");
 		double CurentPolution = smartCityObject.PoltutionPerVehicleInCirculation(vehicleSensorObject);
 
 		if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()
@@ -489,11 +490,11 @@ public class ClientThread extends Thread {
 		switch (operation_type) {
 
 		case "SELECT_ALL":
-			// response.setList(smartCityServices.showCity());
+			response.setList(smartCityServices.showCity());
 			String outjsonStringSelectAllSmart = mapper.writeValueAsString(response);
 			out.write(outjsonStringSelectAllSmart + "\n");
 			out.flush();
-			System.out.println("Display done to " + this.getName());
+			System.out.println("Display done to " + this.getName()+ "WITH :"+outjsonStringSelectAllSmart);
 			System.out.println("********************");
 			break;
 

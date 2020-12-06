@@ -43,36 +43,35 @@ public class VehicleSensor {
 	}
 
 	public String toString() {
-		return "{\"idVehicleSensor\":" + this.idVehicleSensor + ","
+		return "{\"idVehicleSensor\":\"" + this.idVehicleSensor + "\","
 
-				+ "\"sensorType\":\"" + this.getSensorType() + ","
+				+ "\"sensorType\":\"" + this.getSensorType() + "\","
 
-				+ "\"NbOfLightCommercialVehicle\":" + this.getNbOfLightCommercialVehicle() + ","
-				+ "\"NbOfCompactCar\":" + this.getNbOfCompactCar() + "\"," 
-				+ "\"NbOfHeavyGoodsVehicle\":"+ this.getNbOfHeavyGoodsVehicle() + ","
+				+ "\"NbOfLightCommercialVehicle\":\"" + this.getNbOfLightCommercialVehicle() + "\","
+				+ "\"NbOfCompactCar\":\"" + this.getNbOfCompactCar() + "\"," + "\"NbOfHeavyGoodsVehicle\":\""
+				+ this.getNbOfHeavyGoodsVehicle() + "\","
 
-				+ "\"ipAddress\":" + this.getIpAddress() + "\"," + "\"macAddress\":\"" + this.getMacAddress() + ","
+				+ "\"ipAddress\":\"" + this.getIpAddress() + "\"," + "\"macAddress\":\"" + this.getMacAddress() + "\","
 
-				+ "\"isInstalled\":" + this.getisInstalled() + ","
+				+ "\"isInstalled\":\"" + this.getisInstalled() + "\","
 
-				+ "\"idZone\":" + this.getIdZone() + "," + "\"idBollard\":" + this.getIdBollard() + "}";
+				+ "\"idZone\":\"" + this.getIdZone() + "\"," + "\"idBollard\":\"" + this.getIdBollard() + "\"}";
 
 	}
 
-	
-	
 	public int getIdVehicleSensor() {
 		return this.idVehicleSensor;
 	}
 
-	
-	/*public String toString() {
-		return "VehicleSensor [idVehicleSensor=" + idVehicleSensor + ", sensorType=" + sensorType
-				+ ", NbOfLightCommercialVehicle=" + NbOfLightCommercialVehicle + ", NbOfCompactCar=" + NbOfCompactCar
-				+ ", NbOfHeavyGoodsVehicle=" + NbOfHeavyGoodsVehicle + ", ipAddress=" + ipAddress + ", macAddress="
-				+ macAddress + ", isInstalled=" + isInstalled + ", idZone=" + idZone + ", idBollard=" + idBollard + "]";
-	}
-*/
+	/*
+	 * public String toString() { return "VehicleSensor [idVehicleSensor=" +
+	 * idVehicleSensor + ", sensorType=" + sensorType +
+	 * ", NbOfLightCommercialVehicle=" + NbOfLightCommercialVehicle +
+	 * ", NbOfCompactCar=" + NbOfCompactCar + ", NbOfHeavyGoodsVehicle=" +
+	 * NbOfHeavyGoodsVehicle + ", ipAddress=" + ipAddress + ", macAddress=" +
+	 * macAddress + ", isInstalled=" + isInstalled + ", idZone=" + idZone +
+	 * ", idBollard=" + idBollard + "]"; }
+	 */
 	public void setIdVehicleSensor(int idVehicleSensor) {
 		this.idVehicleSensor = idVehicleSensor;
 	}

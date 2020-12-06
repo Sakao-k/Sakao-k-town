@@ -11,6 +11,7 @@ import sakao.common.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Color;
+import java.awt.TextArea;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Simulation extends JPanel {
 	private SmartCity smart;
 	private VehicleSensor vehicle;
 
-	private SimulationCalcul simul;
+	// private SimulationCalcul simul;
 	private ResultTreshold resultTreshold;
 	private String message;
 
@@ -184,15 +185,15 @@ public class Simulation extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 
-				int TresholdMaxNumberOfVehicles = 0;
-				int NbVehiclesInTown = 0;
-				int TresholdPolution = 0;
-				double PolutionLevel = 0;
+				int maxnumbervehicles = 0;
+				int numberofvehicules = 0;
+				int maxpolution = 0;
+				int polutionlevel = 0;
 
 				boolean b = false;
 
 				try {// if is number
-					NbVehiclesInTown = Integer.parseInt(textField_NbVehiclesInTown.getText());
+					numberofvehicules = Integer.parseInt(textField_NbVehiclesInTown.getText());
 
 				} catch (NumberFormatException e1) {
 
@@ -203,7 +204,7 @@ public class Simulation extends JPanel {
 				}
 
 				try {// if is number
-					TresholdMaxNumberOfVehicles = Integer.parseInt(textField_TresholdMaxNumberOfVehicles.getText());
+					maxnumbervehicles = Integer.parseInt(textField_TresholdMaxNumberOfVehicles.getText());
 				} catch (NumberFormatException e1) {
 
 					textField_TresholdMaxNumberOfVehicles.setForeground(Color.RED);
@@ -212,7 +213,7 @@ public class Simulation extends JPanel {
 
 				}
 				try {// if is number
-					PolutionLevel = Double.parseDouble(textField_PolutionLevel.getText());
+					polutionlevel = Integer.parseInt(textField_PolutionLevel.getText());
 				} catch (NumberFormatException e1) {
 
 					textField_PolutionLevel.setForeground(Color.RED);
@@ -221,7 +222,7 @@ public class Simulation extends JPanel {
 
 				}
 				try {// if is number
-					TresholdPolution = Integer.parseInt(textField_TresholdPolution.getText());
+					maxpolution = Integer.parseInt(textField_TresholdPolution.getText());
 				} catch (NumberFormatException e1) {
 
 					textField_TresholdPolution.setForeground(Color.RED);
@@ -243,44 +244,109 @@ public class Simulation extends JPanel {
 
 					textArea.setText("Incorect Number Format");
 				} else {
-					if (smart == null) {
 
-						smart = new SmartCity(1, "name", 1000, 1000, TresholdMaxNumberOfVehicles, NbVehiclesInTown,
-								TresholdPolution, PolutionLevel, tramfreq);
-						// String Newligne=System.getProperty("line.separator");
+					try {
+
+						// i++;
+
+						// al = app.sendMessageToServer(request);
+						// message = i + " " + al + " ";
+						// al.clear();
+
+						app = new JsonToSend();
+
+						String s1 = "{";
+						String s2 = "}";
+
+						ArrayList<String> a = new ArrayList<String>();
+						a.add(s1);
+						a.add("maxnumbervehicles");
+						a.add(String.valueOf(maxnumbervehicles));
+						a.add("numberofvehicules");
+						a.add(String.valueOf(numberofvehicules));
+						a.add("maxpolution");
+						a.add(String.valueOf(maxpolution));
+						a.add("polutionlevel");
+						a.add(String.valueOf(polutionlevel));
+						a.add("tramfrequency");
+						a.add(String.valueOf(tramfreq));
+						a.add(s2);
+
+						Request request2 = new Request("Update", "smartcity", a);
+						app.sendMessageToServer(request2);
+
+						Request request = new Request("SELECT_ALL", "smartcity");
+
+						ArrayList<String> al = app.sendMessageToServer(request);
+
+						System.out.println(al);
+
+						String s = al.get(0) + "\n";
+// A FAIRE PROBLEME AVEC AL
+						System.out.println(s);
+
+						SmartCity req1 = new ObjectMapper().readValue(s, SmartCity.class);
 						message = "Smartcity is initialized with" + "\n";
-						message += "Number of vehicle in circulation = " + smart.getNumberVehicles() + "\n";
-						message += "CurentPolution = " + smart.getPolutionLevel() + " \n";
-						message += "Max vehicles number treshold  = " + smart.getMaxNumberVehicles() + "\n";
-						message += "Max Polution treshold  = " + smart.getMaxPolution() + "\n";
-						message += "Tram Frequency = " + smart.getTramFrequency() + "/10" + "\n";
+						message += "Number of vehicle in circulation = " + req1.getNumberVehicles() + "\n";
+						message += "CurentPolution = " + req1.getPolutionLevel() + " \n";
+						message += "Max vehicles number treshold  = " + req1.getMaxNumberVehicles() + "\n";
+						message += "Max Polution treshold  = " + req1.getMaxPolution() + "\n";
+						message += "Tram Frequency = " + req1.getTramFrequency() + "/10" + "\n";
 
 						textArea.setText(message);
-						// textFieldResultTreshold.setText(message);
 
-					} else {
-
-						smart = null;
-						smart = new SmartCity(1, "name", 1000, 1000, TresholdMaxNumberOfVehicles, NbVehiclesInTown,
-								TresholdPolution, PolutionLevel, tramfreq);
-						message = "Smartcity is initialized with" + "\n";
-						message += "Number of vehicle in circulation = " + smart.getNumberVehicles() + "\n";
-						message += "CurentPolution = " + smart.getPolutionLevel() + " \n";
-						message += "Max vehicles number treshold  = " + smart.getMaxNumberVehicles() + "\n";
-						message += "Max Polution treshold  = " + smart.getMaxPolution() + "\n";
-						message += "Tram Frequency = " + smart.getTramFrequency() + "/10" + "\n";
-
-						textArea.setText(message);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 
-				}
+					/*
+					 * if (smart == null) {
+					 * 
+					 * smart = new SmartCity(1, "name", 1000, 1000, TresholdMaxNumberOfVehicles,
+					 * NbVehiclesInTown, TresholdPolution, PolutionLevel, tramfreq); // String
+					 * Newligne=System.getProperty("line.separator"); message =
+					 * "Smartcity is initialized with" + "\n"; message +=
+					 * "Number of vehicle in circulation = " + smart.getNumberVehicles() + "\n";
+					 * message += "CurentPolution = " + smart.getPolutionLevel() + " \n"; message +=
+					 * "Max vehicles number treshold  = " + smart.getMaxNumberVehicles() + "\n";
+					 * message += "Max Polution treshold  = " + smart.getMaxPolution() + "\n";
+					 * message += "Tram Frequency = " + smart.getTramFrequency() + "/10" + "\n";
+					 * 
+					 * textArea.setText(message); // textFieldResultTreshold.setText(message);
+					 * 
+					 * } else {
+					 * 
+					 * smart = null; smart = new SmartCity(1, "name", 1000, 1000,
+					 * TresholdMaxNumberOfVehicles, NbVehiclesInTown, TresholdPolution,
+					 * PolutionLevel, tramfreq); message = "Smartcity is initialized with" + "\n";
+					 * message += "Number of vehicle in circulation = " + smart.getNumberVehicles()
+					 * + "\n"; message += "CurentPolution = " + smart.getPolutionLevel() + " \n";
+					 * message += "Max vehicles number treshold  = " + smart.getMaxNumberVehicles()
+					 * + "\n"; message += "Max Polution treshold  = " + smart.getMaxPolution() +
+					 * "\n"; message += "Tram Frequency = " + smart.getTramFrequency() + "/10" +
+					 * "\n";
+					 * 
+					 * textArea.setText(message); }
+					 */
 
+					// }
+
+				}
 			}
+
 		});
 
 		resultTreshold = new ResultTreshold();
 
 		btnSendButton_1.addActionListener(new ActionListener() {
+
+			/*
+			 * private void e(String string, JTextArea textArea) { textArea.setText(string);
+			 * 
+			 * }
+			 */
+
 			public void actionPerformed(ActionEvent e) {
 
 				int nboflightcommercialvehicle = 0;
@@ -329,80 +395,170 @@ public class Simulation extends JPanel {
 					textArea.setText("Incorect Number Format");
 				} else {
 
-					vehicle = new VehicleSensor(1, sensorType, nboflightcommercialvehicle, nbofcompactcar,
-							nbofheavygoodsvehicle, "198.172.122.12", "AA:AA:AA:AA:AA", true, 1, 1);
-					if (smart == null) {
-						textArea.setText("No smart city");
-						// textFieldResultTreshold.setText(smart.toString());
-					} else {
+					// try {
+					try {
+						app = new JsonToSend();
 
-						simul = new SimulationCalcul(smart, vehicle, resultTreshold);
-						resultTreshold = simul.CheckVehiclesThreshold(resultTreshold);
-						// resultTreshold.getisBollardStateResult();
-						if (resultTreshold.TresholdResult == "Error NbVehicleInCirculation"
-								|| resultTreshold.TresholdResult == "Error CurentPolution") {
+						// int i= 0;
+						message ="";
 
-							message = "Output vehicles may not exceed  NbVehicleInCirculation";
+						if (sensorType == "Input") {
+							if (nboflightcommercialvehicle > 0) {
 
-							if (resultTreshold.TresholdResult == "Error NbVehicleInCirculation") {
-
-							}
-							if (resultTreshold.TresholdResult == "Error CurentPolution") {
+								for (int i = 0; i < nboflightcommercialvehicle; i++) {
+									//message += i + " " + "\n";
+									//textArea.setText(message);
+									app.RequestToSend("file-for-ihm/addCommercial.json");
+									
+								}
 
 							}
+							
+							if (nbofcompactcar > 0) {
 
-						} else {
+								for (int i = 0; i < nbofcompactcar; i++) {
+									//message += i + " " + "\n";
+									//textArea.setText(message);
+									app.RequestToSend("file-for-ihm/addCompact.json");
+									
+								}
 
-							int maxnumber = smart.getMaxNumberVehicles();
-							int maxPolution = smart.getMaxPolution();
-							smart = null;
-							smart = new SmartCity(1, "sakao", 4000, 4000, maxnumber,
-									resultTreshold.getNbVehicleInCirculation(), maxPolution,
-									resultTreshold.getCurentPolution(), resultTreshold.getTramFrequencyResult());
+							}
+							
+							if (nbofheavygoodsvehicle > 0) {
 
-							message = "NbVehicleInCirculation = " + resultTreshold.getNbVehicleInCirculation() + "\n";
-							message += "CurentPolution  = " + resultTreshold.getCurentPolution() + "\n";
-							message += resultTreshold.getTresholdResult() + "\n";
-							if (resultTreshold.getisBollardStateResult() == true) {
-
-								message += " Retractable bollards are Raised";
-
-							} else {
-								message += " Retractable bollards are lower";
+								for (int i = 0; i < nbofheavygoodsvehicle; i++) {
+									//message += i + " " + "\n";
+									//textArea.setText(message);
+									app.RequestToSend("file-for-ihm/addHeavy.json");
+									
+								}
 
 							}
 
-							message += "Tramfrequency  = " + resultTreshold.getTramFrequencyResult() + "\n";
 						}
-						textArea.setText(message);
+						
+						
+						
+						
+						////////////////////////////////
+						
+						
+						
+						
+						if (sensorType == "Output") {
+							if (nboflightcommercialvehicle > 0) {
 
-					}
+								for (int i = 0; i < nboflightcommercialvehicle; i++) {
+									//message += i + " " + "\n";
+									//textArea.setText(message);
+									app.RequestToSend("file-for-ihm/removeCommercial.json");
+									
+								}
 
+							}
+							
+							if (nbofcompactcar > 0) {
+
+								for (int i = 0; i < nbofcompactcar; i++) {
+									//message += i + " " + "\n";
+									//textArea.setText(message);
+									app.RequestToSend("file-for-ihm/removeCompact.json");
+									
+								}
+
+							}
+							
+							if (nbofheavygoodsvehicle > 0) {
+
+								for (int i = 0; i < nbofheavygoodsvehicle; i++) {
+									//message += i + " " + "\n";
+									//textArea.setText(message);
+									app.RequestToSend("file-for-ihm/removeHeavy.json");
+									
+								}
+
+							}
+
+						}
+						app.CloseConnection();
+
+					} catch (IOException | JSONException e1) { // TODO Auto-generated catch block
+						e1.printStackTrace();
+					} /*
+						 * catch (InterruptedException e1) { // TODO Auto-generated catch block
+						 * e1.printStackTrace(); }
+						 * 
+						 * //
+						 * 
+						 * /* vehicle = new VehicleSensor(1, sensorType, nboflightcommercialvehicle,
+						 * nbofcompactcar, nbofheavygoodsvehicle, "198.172.122.12", "AA:AA:AA:AA:AA",
+						 * true, 1, 1); if (smart == null) { textArea.setText("No smart city"); //
+						 * textFieldResultTreshold.setText(smart.toString()); } else {
+						 * 
+						 * simul = new SimulationCalcul(smart, vehicle, resultTreshold); resultTreshold
+						 * = simul.CheckVehiclesThreshold(resultTreshold); //
+						 * resultTreshold.getisBollardStateResult(); if (resultTreshold.TresholdResult
+						 * == "Error NbVehicleInCirculation" || resultTreshold.TresholdResult ==
+						 * "Error CurentPolution") {
+						 * 
+						 * message = "Output vehicles may not exceed  NbVehicleInCirculation";
+						 * 
+						 * if (resultTreshold.TresholdResult == "Error NbVehicleInCirculation") {
+						 * 
+						 * } if (resultTreshold.TresholdResult == "Error CurentPolution") {
+						 * 
+						 * }
+						 * 
+						 * } else {
+						 * 
+						 * int maxnumber = smart.getMaxNumberVehicles(); int maxPolution =
+						 * smart.getMaxPolution(); smart = null; smart = new SmartCity(1, "sakao", 4000,
+						 * 4000, maxnumber, resultTreshold.getNbVehicleInCirculation(), maxPolution,
+						 * resultTreshold.getCurentPolution(), resultTreshold.getTramFrequencyResult());
+						 * 
+						 * message = "NbVehicleInCirculation = " +
+						 * resultTreshold.getNbVehicleInCirculation() + "\n"; message +=
+						 * "CurentPolution  = " + resultTreshold.getCurentPolution() + "\n"; message +=
+						 * resultTreshold.getTresholdResult() + "\n"; if
+						 * (resultTreshold.getisBollardStateResult() == true) {
+						 * 
+						 * message += " Retractable bollards are Raised";
+						 * 
+						 * } else { message += " Retractable bollards are lower";
+						 * 
+						 * }
+						 * 
+						 * message += "Tramfrequency  = " + resultTreshold.getTramFrequencyResult() +
+						 * "\n"; } textArea.setText(message);
+						 * 
+						 * }
+						 */
+					
 				}
-
+				
 			}
+			
 		});
 
-		app = new JsonToSend();
+		// app = new JsonToSend();
 
-		request = new Request("SELECT_ALL", "check");
+		// request = new Request("SELECT_ALL", "check");
 
 		btnCurentSituation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
 
-					i++;
+					// i++;
 
-					al = app.sendMessageToServer(request);
-					message = i + "   " + al + "   ";
-					al.clear();
+					// al = app.sendMessageToServer(request);
+					// message = i + " " + al + " ";
+					// al.clear();
 
-					JsonToSend app = new JsonToSend();
+					app = new JsonToSend();
 
-
-					Request request = new Request("SELECT_ALL", "check");
-
+					request = new Request("SELECT_ALL", "check");
 
 					ArrayList<String> al = app.sendMessageToServer(request);
 
@@ -417,23 +573,9 @@ public class Simulation extends JPanel {
 					message += "bollardStateResult =" + req1.getisBollardStateResult() + "\n";
 					message += "tramFrequencyResult =" + req1.getTramFrequencyResult() + "\n";
 
-					// System.out.println("okkk");
 					textArea.setText(message);
-					// }
-					/*
-					 * String s = al.get(0) + "\n";
-					 * 
-					 * System.out.println(s);
-					 * 
-					 * ResultTreshold req1 = new ObjectMapper().readValue(s, ResultTreshold.class);
-					 * 
-					 * message = "NbVehicleInCirculation =" + req1.getNbVehicleInCirculation() +
-					 * "\n"; message += "CurentPolution =" + req1.getCurentPolution() + "\n";
-					 * message += "TresholdResult =" + req1.getTresholdResult() + "\n"; message +=
-					 * "bollardStateResult =" + req1.getisBollardStateResult() + "\n"; message +=
-					 * "tramFrequencyResult =" + req1.getTramFrequencyResult() + "\n"; //req1 =
-					 * null; //message = null;
-					 */
+					
+					app.CloseConnection();
 
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

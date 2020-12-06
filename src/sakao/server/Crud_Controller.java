@@ -123,6 +123,29 @@ public class Crud_Controller {
 	 * 
 	 * }
 	 */
+	
+	
+	public ArrayList<String> showCity() {
+		ArrayList<String> retour = new ArrayList<String>();
+		try {
+			Connection con = DataSource.getConnection();
+			PreparedStatement ps = con.prepareStatement("select * from smartcity");
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				retour.add(new SmartCity(rs.getInt("idcity"), rs.getString("name"), rs.getInt("heightkm"),
+						rs.getInt("widthkm"), rs.getInt("maxnumbervehicles"), rs.getInt("numberofvehicules"),
+						rs.getInt("maxpolution"), rs.getInt("polutionlevel"), rs.getInt("tramfrequency")).toString());
+			}
+
+			DataSource.returnConnection(con);
+			
+		} catch (Exception e) {
+			System.out.println("erreur " + e.getMessage());
+		}
+
+		return retour;
+	}
 	public void updateTramFrequency(int c) throws ClassNotFoundException {
 		try {
 			Connection con = DataSource.getConnection();
@@ -528,8 +551,8 @@ public class Crud_Controller {
 				 * rs.getInt(5), rs.getInt(6), rs.getInt(8), rs.getInt(7), rs.getInt(9),
 				 * rs.getString(2)); maxnumbervehicles
 				 */
-				smartcity = new SmartCity(rs.getInt("idcity"), rs.getString("name"), rs.getDouble("heightkm"),
-						rs.getDouble("widthkm"), rs.getInt("maxnumbervehicles"), rs.getInt("numberofvehicules"),
+				smartcity = new SmartCity(rs.getInt("idcity"), rs.getString("name"), rs.getInt("heightkm"),
+						rs.getInt("widthkm"), rs.getInt("maxnumbervehicles"), rs.getInt("numberofvehicules"),
 						rs.getInt("maxpolution"), rs.getInt("polutionlevel"), rs.getInt("tramfrequency"));
 				
 			}

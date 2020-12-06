@@ -6,8 +6,8 @@ import java.util.Iterator;
 public class SmartCity {
 	private int id;
 	private String name;
-	private double heightkm;
-	private double widthkm;
+	private int heightkm;
+	private int widthkm;
 
 	private int maxNumberVehicles;
 	private int numberVehicles; // In circulation
@@ -24,7 +24,7 @@ public class SmartCity {
 	public SmartCity() {
 	}
 
-	public SmartCity(int id, String name, double HeightKM, double WidthKM, int maxNumberVehicles, int numberVehicles,
+	public SmartCity(int id, String name, int HeightKM, int WidthKM, int maxNumberVehicles, int numberVehicles,
 			int maxPolution, double polutionLevel, int tramFrequency) {
 ///MIS A JOUR
 		this.id = id;
@@ -43,17 +43,21 @@ public class SmartCity {
 	}
 
 	
-	  public String toString() {
-		  return "{\"id\":" + this.id + "," 
-	  +"\"name\":\"" + this.name + "\"," 
-	  + "\"heightkm\":" + this.getHeightkm() +"," 
-	  + "\"widthkm\":" + this.getWidthkm() + ","
-	  + "\"maxNumberVehicles\":" + this.getMaxNumberVehicles() + "," 
-	  + "\"numberVehicles\":"+ this.getNumberVehicles() + ","
-	  +"\"maxPolution\":" + this.getMaxPolution() + "," 
-	  + "\"polutionLevel\":"+ this.getPolutionLevel() + ","
-	  +"\"tramFrequency\":" + this.getTramFrequency() 
-	  + "}";
+	  public String toString() { 
+		  
+			return "{\"id\":\"" + this.getId() + "\"," 
+					+ "\"name\":\"" + this.getName() + "\"," 
+					+ "\"heightkm\":\"" + this.getHeightkm() + "\","
+					+ "\"widthkm\":\"" + this.getWidthkm()+ "\"," 
+					
+					+ "\"maxNumberVehicles\":\"" + this.getMaxNumberVehicles()+ "\"," 
+				    + "\"numberVehicles\":\"" + this.getNumberVehicles()+ "\"," 
+				    + "\"maxPolution\":\"" + this.getMaxPolution()+ "\"," 
+					+ "\"polutionLevel\":\"" + this.getPolutionLevel()+ "\"," 
+				    
+					+ "\"tramFrequency\":\"" + this.getTramFrequency()
+
+					+ "\"}";
 	  
 	  }
 	 
@@ -73,19 +77,19 @@ public class SmartCity {
 		this.id = id;
 	}
 
-	public double getHeightkm() {
+	public int getHeightkm() {
 		return this.heightkm;
 	}
 
-	public void setHeightkm(double height) {
+	public void setHeightkm(int height) {
 		this.heightkm = height;
 	}
 
-	public double getWidthkm() {
+	public int getWidthkm() {
 		return this.widthkm;
 	}
 
-	public void setWidthkm(double width) {
+	public void setWidthkm(int width) {
 		this.widthkm = width;
 	}
 
