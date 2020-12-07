@@ -23,7 +23,7 @@ public class SpecPolutionDecrease {
 		System.out.println("SensorVehiculeOutput4 = nboflightcommercialvehicle: 100");
 		System.out.println("********************************");
 		SpecPolutionDecrease.RequestToSend("file-for-test/InitSmartCity.json");
-		SpecPolutionDecrease.RequestToSend("file-for-test/TestPolution5.json");
+		SpecPolutionDecrease.RequestToSend("file-for-test/InitTest7.json");
 
 		SpecPolutionDecrease.RequestToSend("file-for-test/TestPolution7.json");
 		

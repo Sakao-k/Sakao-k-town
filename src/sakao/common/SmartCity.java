@@ -19,6 +19,18 @@ public class SmartCity {
 	private final static double PolutionCompactCar = 1.5;
 	private final static double PolutionHeavyGoodsVehicle = 2.5;
 
+	public  double getPolutionlightcommercialvehicle() {
+		return PolutionLightCommercialVehicle;
+	}
+
+	public  double getPolutioncompactcar() {
+		return PolutionCompactCar;
+	}
+
+	public  double getPolutionheavygoodsvehicle() {
+		return PolutionHeavyGoodsVehicle;
+	}
+
 	private int tramFrequency;
 
 	public SmartCity() {
@@ -39,6 +51,7 @@ public class SmartCity {
 		this.polutionLevel = polutionLevel;
 
 		this.tramFrequency = tramFrequency;
+		
 
 	}
 
@@ -141,6 +154,61 @@ public class SmartCity {
 		this.polutionLevel = curentPolution;
 	}
 
+	public ArrayList<Integer> VehicleInCirculationWait (ArrayList<VehicleSensor> Sensorlist) {
+
+		ArrayList<Integer> NbVehicleInCirculation = new ArrayList<Integer>(8);
+		//int inV = 0;
+		//int outV = 0;
+		
+		int inLight =0;
+		int outLight =0;
+		int inCompact =0;
+		int outCompact =0;
+		int inHeavy =0;
+		int outHeavy =0;
+
+		Iterator<VehicleSensor> it = Sensorlist.iterator();
+
+		while (it.hasNext()) {
+			VehicleSensor v = it.next();
+
+			if (v.getSensorType().equals("Input")) {
+
+				inCompact += v.getNbOfCompactCar();
+				inHeavy += v.getNbOfHeavyGoodsVehicle();
+				inLight += v.getNbOfLightCommercialVehicle();
+
+			} else if (v.getSensorType().equals("Output")) {
+
+				outCompact += v.getNbOfCompactCar();
+				outHeavy += v.getNbOfHeavyGoodsVehicle();
+				outLight += v.getNbOfLightCommercialVehicle();
+
+			}
+
+		}
+		
+	
+		
+		int out = outLight+outCompact+outHeavy;
+		int in = inLight+inCompact+inHeavy;
+		NbVehicleInCirculation.add(0, 0);
+		NbVehicleInCirculation.add(1, outLight);
+		NbVehicleInCirculation.add(2, outCompact);
+		NbVehicleInCirculation.add(3, outHeavy);
+		
+		NbVehicleInCirculation.add(4, inLight);
+		NbVehicleInCirculation.add(5, inCompact);
+		NbVehicleInCirculation.add(6, inHeavy);
+		
+		NbVehicleInCirculation.add(7,out);
+		NbVehicleInCirculation.add(8,in);
+		
+		
+		//NbVehicleInCirculation.get(1);
+		
+		return NbVehicleInCirculation;
+	}
 	public int VehicleInCirculation(ArrayList<VehicleSensor> Sensorlist) {
 
 		int inV = 0;
@@ -219,7 +287,11 @@ public class SmartCity {
 		}
 
 	}
-	public String Check(ArrayList<VehicleSensor> Sensorlist) {
+	
+	
+	
+	
+	/*public String Check(ArrayList<VehicleSensor> Sensorlist) {
 		
 		String result = "No Result";
 		int NbVehicleInCirculation = this.VehicleInCirculation(Sensorlist); // in + incity - out)
@@ -297,13 +369,13 @@ public class SmartCity {
 
 				}
 
-			*/}
+			}
 		}
 		
 		
 		return result;
 		
 		
-	}
+	}*/
 
 }

@@ -36,8 +36,8 @@ public class SpecHeavyPolution {
 		System.out.println("SensorVehiculeOutput4 = nboflightcommercialvehicle: 100,");
 
 		System.out.println("Expected results : retractablebollard are raised");
-		System.out.println("Number of vehicule in circulation = 200+300-200 = 300");
-		System.out.println("Current Polution = 300*2.5= 750");
+		System.out.println("Number of vehicule in circulation = 200+300-200 = 300-20 =280 (20 did not entry ");
+		System.out.println("Current Polution = 280*2.5= 700");
 		System.out.println("TramFrequency : 10/10");
 		System.out.println("Treshold Polution !!!");
 		SpecHeavyPolution.CloseConnection();

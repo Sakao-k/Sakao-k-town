@@ -7,12 +7,12 @@
 			"SensorTypeIO": "Input",
 			"nboflightcommercialvehicle": 0,
 			"nbofcompactcar": 0,
-			"nbofheavygoodsvehicle": 0
+			"nbofheavygoodsvehicle": 130
 		},
 		{	
 			"IDVehicleSensor" : 2,
 			"SensorTypeIO": "Output",
-			"nboflightcommercialvehicle": 0,
+			"nboflightcommercialvehicle": 100,
 			"nbofcompactcar": 0,
 			"nbofheavygoodsvehicle": 0
 		},
@@ -21,14 +21,14 @@
 			"SensorTypeIO": "Input",
 			"nboflightcommercialvehicle": 0,
 			"nbofcompactcar": 0,
-			"nbofheavygoodsvehicle": 0
+			"nbofheavygoodsvehicle": 150
 		},
 		{	
 			"IDVehicleSensor" : 4,
 			"SensorTypeIO": "Output",
-			"nboflightcommercialvehicle": 0,
+			"nboflightcommercialvehicle": 100,
 			"nbofcompactcar": 0,
-			"nbofheavygoodsvehicle": 20
+			"nbofheavygoodsvehicle": 0
 		}
 	]
 }

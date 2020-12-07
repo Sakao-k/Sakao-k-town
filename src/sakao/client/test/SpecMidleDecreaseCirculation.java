@@ -33,6 +33,7 @@ public class SpecMidleDecreaseCirculation {
 
 		System.out.println("Expected results : retractablebollard are Raised");
 		System.out.println("Number of vehicule in circulation = 500+700-800 = 400");
+		System.out.println("CurrentPolution = 400");
 		System.out.println("TramFrequency : 8/10");
 
 		SpecMidleDecreaseCirculation.RequestToSend("file-for-test/TestVehicles4.json");

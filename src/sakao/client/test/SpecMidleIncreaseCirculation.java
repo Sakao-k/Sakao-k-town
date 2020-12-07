@@ -41,6 +41,7 @@ public class SpecMidleIncreaseCirculation {
 		
 		System.out.println("Expected results : retractablebollard are lower");
 		System.out.println("Number of vehicule in circulation = 200+400-200 = 400");
+		System.out.println("Current Polution = 400");
 		System.out.println("Inncreasing Number of vehicles");
 		System.out.println("TramFrequency : 8/10");
 		//
