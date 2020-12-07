@@ -10,17 +10,19 @@ public class ResultTreshold {
 	public String TresholdResult; //Object mapper don't recognize in private (IHM)
 	public int NbVehicleInCirculation; //Object mapper don't recognize in private (IHM)
 	public double CurentPolution; //Object mapper don't recognize in private (IHM)
+	public boolean Entry;
 
 	public ResultTreshold() {
 
 	}
 
-	public ResultTreshold(boolean bollardStateResult, int tramFrequencyResult, String TresholdResult, int NbVehicleInCirculation, int CurentPolution) {
+	public ResultTreshold(boolean bollardStateResult, int tramFrequencyResult, String TresholdResult, int NbVehicleInCirculation, int CurentPolution,boolean Entry) {
 		this.bollardStateResult = bollardStateResult;
 		this.tramFrequencyResult = tramFrequencyResult;
 		this.TresholdResult = TresholdResult;
 		this.NbVehicleInCirculation = NbVehicleInCirculation;
 		this.CurentPolution =CurentPolution;
+		this.Entry = Entry;
 	}
 
 	public boolean getisBollardStateResult() {
@@ -62,9 +64,24 @@ public class ResultTreshold {
 	public void setCurentPolution(double curentPolution) {
 		CurentPolution = curentPolution;
 	}
+	
+	
+
+	public boolean isEntry() {
+		return Entry;
+	}
+
+	public void setEntry(boolean entry) {
+		Entry = entry;
+	}
+
+	public boolean isBollardStateResult() {
+		return bollardStateResult;
+	}
 
 	public String toString() {
 		return "{\"bollardStateResult\":" + this.getisBollardStateResult() + "," 
+				+ "\"Entry\":" + this.isEntry() + "," 
 				+ "\"tramFrequencyResult\":" + this.getTramFrequencyResult() + "," 
 				+ "\"NbVehicleInCirculation\":" + this.getNbVehicleInCirculation()+ "," 
 				+ "\"CurentPolution\":" + this.getCurentPolution()+ "," 

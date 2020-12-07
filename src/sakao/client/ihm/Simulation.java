@@ -30,8 +30,6 @@ import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-
-
 public class Simulation extends JPanel {
 	private JTextField textField_TresholdMaxNumberOfVehicles;
 	private JTextField textField_NbVehiclesInTown;
@@ -176,18 +174,18 @@ public class Simulation extends JPanel {
 		btnCurentSituation.setBounds(59, 289, 132, 21);
 		panel.add(btnCurentSituation);
 		JTextArea textArea = new JTextArea();
-		
+
 		textArea.setBackground(Color.WHITE);
 		textArea.setBounds(300, 252, 337, 106);
-		//panel.add(textArea);
-		
-		JScrollPane sp = new JScrollPane(textArea,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		// panel.add(textArea);
+
+		JScrollPane sp = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		sp.setLocation(223, 245);
 		sp.setSize(420, 125);
 		panel.add(sp);
-		
-				;
-		
+
+		;
 
 		message = "";
 
@@ -306,14 +304,13 @@ public class Simulation extends JPanel {
 						message += "Tram Frequency = " + req1.getTramFrequency() + "/10" + "\n";
 
 						textArea.setText(message);
-						
 
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
-					/*	
+					/*
 					 * if (smart == null) {
 					 * 
 					 * smart = new SmartCity(1, "name", 1000, 1000, TresholdMaxNumberOfVehicles,
@@ -413,83 +410,127 @@ public class Simulation extends JPanel {
 						app = new JsonToSend();
 
 						// int i= 0;
-						message ="";
+						message = "";
 
 						if (sensorType == "Input") {
 							if (nboflightcommercialvehicle > 0) {
 
 								for (int i = 0; i < nboflightcommercialvehicle; i++) {
-									message += i + " " + "\n";
-									//textArea.setText(message);
-									app.RequestToSend("file-for-ihm/addCommercial.json");
+
+									// textArea.setText(message);
+									ArrayList<String> alRes = app
+											.RequestToSendResult("file-for-ihm/addCommercial.json");
+									String s = alRes.get(0) + "\n";
+
+									System.out.println(s);
+
+									ResultTreshold reqRes = new ObjectMapper().readValue(s, ResultTreshold.class);
+
+									if (reqRes.isEntry() == false) {
+										message += "A lightcommercialvehicle did not entry in town" + "\n";
+
+									} else {
+
+										message += "A lightcommercialvehicle entry in town" + "\n";
+									}
+
 									textArea.setText(message);
-									
+
 								}
 
 							}
-							
+
 							if (nbofcompactcar > 0) {
 
 								for (int i = 0; i < nbofcompactcar; i++) {
-									//message += i + " " + "\n";
-									//textArea.setText(message);
-									app.RequestToSend("file-for-ihm/addCompact.json");
+									// message += i + " " + "\n";
+									textArea.setText(message);
+									ArrayList<String> alRes2 = app.RequestToSendResult("file-for-ihm/addCompact.json");
 									
+									String s = alRes2.get(0) + "\n";
+
+									System.out.println(s);
+
+									ResultTreshold reqRes = new ObjectMapper().readValue(s, ResultTreshold.class);
+
+									if (reqRes.isEntry() == false) {
+										message += "A nbofcompactcar did not entry in town" + "\n";
+
+									} else {
+
+										message += "A nbofcompactcar entry in town" + "\n";
+									}
+
+									textArea.setText(message);
+
 								}
 
 							}
-							
+
 							if (nbofheavygoodsvehicle > 0) {
 
 								for (int i = 0; i < nbofheavygoodsvehicle; i++) {
-									//message += i + " " + "\n";
-									//textArea.setText(message);
-									app.RequestToSend("file-for-ihm/addHeavy.json");
-									
+								
+									ArrayList<String> alRes3 = app.RequestToSendResult("file-for-ihm/addHeavy.json");
+									String s = alRes3.get(0) + "\n";
+
+									System.out.println(s);
+
+									ResultTreshold reqRes = new ObjectMapper().readValue(s, ResultTreshold.class);
+
+									if (reqRes.isEntry() == false) {
+										message += "A nbofheavygoodsvehicle did not entry in town" + "\n";
+
+									} else {
+
+										message += "A nbofheavygoodsvehicle entry in town" + "\n";
+									}
+
+									textArea.setText(message);
+
+								
 								}
 
 							}
 
 						}
-						
-						
-						
-						
+
 						////////////////////////////////
-						
-						
-						
-						
+
 						if (sensorType == "Output") {
 							if (nboflightcommercialvehicle > 0) {
 
 								for (int i = 0; i < nboflightcommercialvehicle; i++) {
-									//message += i + " " + "\n";
-									//textArea.setText(message);
-									app.RequestToSend("file-for-ihm/removeCommercial.json");
-									
-								}
-
-							}
-							
-							if (nbofcompactcar > 0) {
-
-								for (int i = 0; i < nbofcompactcar; i++) {
-									message += i + " " + "\n";
-									
-									app.RequestToSend("file-for-ihm/removeCompact.json");
+									// message += i + " " + "\n";
+									 
+									ArrayList<String> alRes4 = app.RequestToSendResult("file-for-ihm/removeCommercial.json");
+									message += "a lightcommercialvehicle came out of town" + "\n";
 									textArea.setText(message);
 								}
 
 							}
-							
+
+							if (nbofcompactcar > 0) {
+
+								for (int i = 0; i < nbofcompactcar; i++) {
+									//message += i + " " + "\n";
+
+									app.RequestToSend("file-for-ihm/removeCompact.json");
+									message += "a nbofcompactcar came out of town" + "\n";
+									textArea.setText(message);
+								}
+
+							}
+
 							if (nbofheavygoodsvehicle > 0) {
 
 								for (int i = 0; i < nbofheavygoodsvehicle; i++) {
-									//message += i + " " + "\n";
-									//textArea.setText(message);
+									// message += i + " " + "\n";
+									// textArea.setText(message);
 									app.RequestToSend("file-for-ihm/removeHeavy.json");
-									
+									message += "a nbofheavygoodsvehicle came out of town" + "\n";
+									textArea.setText(message);
+
 								}
 
 							}
@@ -548,11 +589,11 @@ public class Simulation extends JPanel {
 						 * 
 						 * }
 						 */
-					
+
 				}
-				
+
 			}
-			
+
 		});
 
 		// app = new JsonToSend();
@@ -588,7 +629,7 @@ public class Simulation extends JPanel {
 					message += "tramFrequencyResult =" + req1.getTramFrequencyResult() + "\n";
 
 					textArea.setText(message);
-					
+
 					app.CloseConnection();
 
 				} catch (Exception e1) {

@@ -21,7 +21,7 @@ public class JsonToSend {
 	private Response response = new Response();
 
 	private final static int port = 3030;
-	private final static String ip = "localhost";
+	private final static String ip = "172.31.249.133";
 
 	private final static String SELECT_ALL = "SELECT_ALL";
 	private final static String Update = "Update";
@@ -117,6 +117,16 @@ public class JsonToSend {
 		
 	}
 	
+	public ArrayList<String> RequestToSendResult(String path) throws IOException {
+
+		
+		Request request = new ObjectMapper().readValue(this.readFile(path), Request.class);
+		ArrayList<String> resultList = this.sendMessageToServer(request);
+		
+		return resultList;
+		
+		
+	}
 	public Request requestParse (String path) throws JsonParseException, JsonMappingException, IOException {
 		
 		Request request = new ObjectMapper().readValue(this.readFile(path), Request.class);

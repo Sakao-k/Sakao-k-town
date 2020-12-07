@@ -97,7 +97,7 @@ public class ClientThread extends Thread {
 //		bollardObject = bollardService.GenerateAllBollards();
 //		vehicleSensorObject = vehiclesSensorService.GenerateAllVehicleSensors();
 //		smartCityObject = smartCityServices.GenerateCity();
-
+		resultTreshold.setEntry(true);
 		double CurrentPolution = smartCityObject.getPolutionLevel();
 		int NbVehicleInCirculation = smartCityObject.getNumberVehicles();
 
@@ -180,6 +180,7 @@ public class ClientThread extends Thread {
 					|| CurrentPolution >= smartCityObject.getMaxPolution()) {
 
 				System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+				resultTreshold.setEntry(false);
 
 				// Alors on le refuse -> on envoie un result refuser
 				// On garde les ancien Current NBVEHICLES et Current Polution
@@ -200,12 +201,14 @@ public class ClientThread extends Thread {
 					if (PolutioninWait > smartCityObject.getMaxPolution()) {
 
 						System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+						resultTreshold.setEntry(false);
 
 					} else {
 
 						if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
 
 							System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+							resultTreshold.setEntry(false);
 
 						} else {
 
@@ -225,12 +228,14 @@ public class ClientThread extends Thread {
 					if (PolutioninWait > smartCityObject.getMaxPolution()) {
 
 						System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+						resultTreshold.setEntry(false);
 
 					} else {
 
 						if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
 
 							System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+							resultTreshold.setEntry(false);
 
 						} else {
 
@@ -250,12 +255,14 @@ public class ClientThread extends Thread {
 					if (PolutioninWait > smartCityObject.getMaxPolution()) {
 
 						System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+						resultTreshold.setEntry(false);
 
 					} else {
 
 						if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
 
 							System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+							resultTreshold.setEntry(false);
 
 						} else {
 
