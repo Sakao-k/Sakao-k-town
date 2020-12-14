@@ -7,11 +7,13 @@ import java.util.Properties;
 public final class ConnectionFileReader {
 
 	private Properties p;
-	private final static int MAX_CONNECTIONS = 11;
+	private int MAX_CONNECTIONS;
 
 
-	public ConnectionFileReader() {
+	public ConnectionFileReader(int i) {
 		p = new Properties();
+		MAX_CONNECTIONS = i;
+		
 	}
 
 	///// open the file and read it
@@ -41,8 +43,14 @@ public final class ConnectionFileReader {
 		this.p = p;
 	}
 
-	public static int getMaxConnections() {
+	public int getMaxConnections() {
 		return MAX_CONNECTIONS;
 	}
+
+
+	public void setMAX_CONNECTIONS(int mAX_CONNECTIONS) {
+		MAX_CONNECTIONS = mAX_CONNECTIONS;
+	}
+
 
 }

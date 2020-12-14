@@ -8,9 +8,10 @@ import java.util.ArrayList;
 public class JDBCConnectionPool {
 
 	private static ArrayList<Connection> listConnectionavailable = new ArrayList<Connection>();///// OK
-
+	private ConnectionFileReader ConnectionFileReader = new ConnectionFileReader(0);
 	///// Create the pool of connections
-	public JDBCConnectionPool() {
+	public JDBCConnectionPool(int i) {
+		ConnectionFileReader.setMAX_CONNECTIONS(i);
 		this.closeAllConnection();
 		this.initializeConnectionPool();
 		System.out.println(ConnectionFileReader.getMaxConnections() + " connexion(s) ha(s/ve) been created");
@@ -18,11 +19,11 @@ public class JDBCConnectionPool {
 
 	///// Creating a new connection in order to put it in the connection pool
 	public Connection createNewConnection() throws ClassNotFoundException, SQLException {
-		ConnectionFileReader connectionfilereader = new ConnectionFileReader();
-		connectionfilereader.Read();
-		Class.forName(connectionfilereader.getProperty("driver"));
-		Connection con = DriverManager.getConnection(connectionfilereader.getProperty("url"),
-				connectionfilereader.getProperty("login"), connectionfilereader.getProperty("password"));
+		//ConnectionFileReader connectionfilereader = new ConnectionFileReader();
+		ConnectionFileReader.Read();
+		Class.forName(ConnectionFileReader.getProperty("driver"));
+		Connection con = DriverManager.getConnection(ConnectionFileReader.getProperty("url"),
+				ConnectionFileReader.getProperty("login"), ConnectionFileReader.getProperty("password"));
 		return con;
 
 	}

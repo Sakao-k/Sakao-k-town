@@ -10,10 +10,11 @@ import sakao.connection.pool.DataSource;
 public class ServerSakao {
 	private ServerSocket serverSocket;
 	private static DataSource datasource;
+	private static int i;
 
 	public void start(int port) throws IOException, JSONException, ClassNotFoundException {
 		serverSocket = new ServerSocket(port);
-		datasource = new DataSource();
+		
 		while (true) {
 			new ClientThread(serverSocket.accept()).start();
 		}
@@ -32,7 +33,9 @@ public class ServerSakao {
 		this.serverSocket = serverSocket;
 	}
 
-	public static void main(String[] args) throws IOException, JSONException, ClassNotFoundException {
+	public static void main(int args) throws IOException, JSONException, ClassNotFoundException {
+		
+		datasource = new DataSource(args);
 		ServerSakao serveur1 = new ServerSakao();
 		serveur1.start(3030);
 		serveur1.CloseConnection();

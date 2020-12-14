@@ -108,32 +108,32 @@ public class ClientThread extends Thread {
 		int OutNbVehicle = ListInWait.get(7);
 		int InNBVehicle = ListInWait.get(8);
 
-		System.out.println("OutNbVehicle : " + OutNbVehicle);
-		System.out.println("InNBVehicle : " + InNBVehicle);
+		//System.out.println("OutNbVehicle : " + OutNbVehicle);
+		//System.out.println("InNBVehicle : " + InNBVehicle);
 
 		int outLight = ListInWait.get(1);
 		int outCompact = ListInWait.get(2);
 		int outHeavy = ListInWait.get(3);
 
-		System.out.println("outLight : " + outLight);
-		System.out.println("outCompact : " + outCompact);
-		System.out.println("outHeavy : " + outHeavy);
+		//System.out.println("outLight : " + outLight);
+		//System.out.println("outCompact : " + outCompact);
+	//	System.out.println("outHeavy : " + outHeavy);
 
 		int inLight = ListInWait.get(4);
 		int inCompact = ListInWait.get(5);
 		int inHeavy = ListInWait.get(6);
 
-		System.out.println("inLight : " + inLight);
-		System.out.println("inCompact : " + inCompact);
-		System.out.println("inHeavy : " + inHeavy);
+	//	System.out.println("inLight : " + inLight);
+		//System.out.println("inCompact : " + inCompact);
+		//System.out.println("inHeavy : " + inHeavy);
 
 		double PolutionforOneLightCommercialVehicle = smartCityObject.getPolutionlightcommercialvehicle();
 		double PolutionforOneCompactCar = smartCityObject.getPolutioncompactcar();
 		double PolutionforOneHeavyGoodsVehicle = smartCityObject.getPolutionheavygoodsvehicle();
 
-		System.out.println("PolutionforOneLightCommercialVehicle : " + PolutionforOneLightCommercialVehicle);
-		System.out.println("PolutionforOneCompactCar : " + PolutionforOneCompactCar);
-		System.out.println("PolutionforOneHeavyGoodsVehicle : " + PolutionforOneHeavyGoodsVehicle);
+	//	System.out.println("PolutionforOneLightCommercialVehicle : " + PolutionforOneLightCommercialVehicle);
+		//System.out.println("PolutionforOneCompactCar : " + PolutionforOneCompactCar);
+		//System.out.println("PolutionforOneHeavyGoodsVehicle : " + PolutionforOneHeavyGoodsVehicle);
 
 //Pour avoir le CURRENT POLUTION ET CURRENT CIRCULATION
 //Pour tout les type de voiture, A FAIRE PAR TYPE DE VEHICELES	
@@ -164,8 +164,8 @@ public class ClientThread extends Thread {
 
 			}
 
-			System.out.println("NbVehicleInCirculation after substract OutNbVehicle : " + NbVehicleInCirculation);
-			System.out.println("CurrentPolution after substract OutNbVehicle : " + CurrentPolution);
+			//System.out.println("NbVehicleInCirculation after substract OutNbVehicle : " + NbVehicleInCirculation);
+			//System.out.println("CurrentPolution after substract OutNbVehicle : " + CurrentPolution);
 
 		} 
 		
@@ -179,7 +179,7 @@ public class ClientThread extends Thread {
 			if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()
 					|| CurrentPolution >= smartCityObject.getMaxPolution()) {
 
-				System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+				//System.out.println("A AJOUTER DANS RESULT TRESHOLD");
 				resultTreshold.setEntry(false);
 
 				// Alors on le refuse -> on envoie un result refuser
@@ -200,14 +200,14 @@ public class ClientThread extends Thread {
 
 					if (PolutioninWait > smartCityObject.getMaxPolution()) {
 
-						System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+						//System.out.println("A AJOUTER DANS RESULT TRESHOLD");
 						resultTreshold.setEntry(false);
 
 					} else {
 
 						if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
 
-							System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+						//	System.out.println("A AJOUTER DANS RESULT TRESHOLD");
 							resultTreshold.setEntry(false);
 
 						} else {
@@ -227,14 +227,14 @@ public class ClientThread extends Thread {
 
 					if (PolutioninWait > smartCityObject.getMaxPolution()) {
 
-						System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+						//System.out.println("A AJOUTER DANS RESULT TRESHOLD");
 						resultTreshold.setEntry(false);
 
 					} else {
 
 						if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
 
-							System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+						//	System.out.println("A AJOUTER DANS RESULT TRESHOLD");
 							resultTreshold.setEntry(false);
 
 						} else {
@@ -254,14 +254,14 @@ public class ClientThread extends Thread {
 
 					if (PolutioninWait > smartCityObject.getMaxPolution()) {
 
-						System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+					//	System.out.println("A AJOUTER DANS RESULT TRESHOLD");
 						resultTreshold.setEntry(false);
 
 					} else {
 
 						if (NbVehicleInCirculation >= smartCityObject.getMaxNumberVehicles()) {
 
-							System.out.println("A AJOUTER DANS RESULT TRESHOLD");
+							//System.out.println("A AJOUTER DANS RESULT TRESHOLD");
 							resultTreshold.setEntry(false);
 
 						} else {
@@ -276,8 +276,8 @@ public class ClientThread extends Thread {
 				}
 
 				
-				System.out.println("NbVehicleInCirculation after add InNbVehicle : " + NbVehicleInCirculation);
-				System.out.println("CurrentPolution after add InNbVehicle : " + CurrentPolution);
+				//System.out.println("NbVehicleInCirculation after add InNbVehicle : " + NbVehicleInCirculation);
+				//System.out.println("CurrentPolution after add InNbVehicle : " + CurrentPolution);
 				// Si InL > NBVACCEPTABLE
 
 				// pour chaque in -> i=0 i<in, i++
@@ -367,15 +367,15 @@ public class ClientThread extends Thread {
 
 			smartCityObject = smartCityServices.GenerateCity();
 
-			System.out.println(vehicleSensorObject);
-			System.out.println(smartCityObject);
+		//	System.out.println(vehicleSensorObject);
+		//	System.out.println(smartCityObject);
 
 			/////////////////////////////////////////////////////////////////////////////////////////
-			System.out.println("Seuil : " + smartCityObject.getMaxNumberVehicles());
-			System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
+		//	System.out.println("Seuil : " + smartCityObject.getMaxNumberVehicles());
+			//System.out.println("NbVehicleInCirculation = " + NbVehicleInCirculation);
 			resultTreshold.setNbVehicleInCirculation(NbVehicleInCirculation);
 
-			System.out.println("CurentPolution = " + CurrentPolution);
+			//System.out.println("CurentPolution = " + CurrentPolution);
 			resultTreshold.setCurentPolution(CurrentPolution);
 
 			int Max = smartCityObject.getMaxNumberVehicles();

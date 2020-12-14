@@ -8,8 +8,8 @@ public class DataSource {
 
 	private static JDBCConnectionPool instance;
 
-	public DataSource() throws ClassNotFoundException {
-		instance = new JDBCConnectionPool();
+	public DataSource(int i) throws ClassNotFoundException {
+		instance = new JDBCConnectionPool(i);
 	}
 
 	public static ArrayList<Connection> getListConnectionavailable() {
